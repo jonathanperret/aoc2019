@@ -9,16 +9,19 @@ BEGIN {
 }
 
 END {
-  printf "%d orbits\n", length(orbits);
-  for(orbiter in orbits) {
-    printf "[%s][%s]\n", orbiter, orbits[orbiter];
-    tmp = orbiter;
-    while(tmp in orbits) {
-      total++;
-      print total, orbiter, tmp;
-      tmp = orbits[tmp];
-      print tmp;
+  youdistance[orbits["YOU"]] = 1;
+  while(!youdistance["SAN"]) {
+    printf "iteration %d\n", iter++;
+    for(orbiter in orbits) {
+      orbitee = orbits[orbiter];
+      if(youdistance[orbiter] && !youdistance[orbitee]) {
+        youdistance[orbitee] = youdistance[orbiter] + 1;
+        printf "> [%s]=%d\n", orbitee, youdistance[orbitee];
+      } else if(!youdistance[orbiter] && youdistance[orbitee]) {
+        youdistance[orbiter] = youdistance[orbitee] + 1;
+        printf "< [%s]=%d\n", orbiter, youdistance[orbiter];
+      }
     }
   }
-  print total;
+  print youdistance["SAN"] - 2;
 }
