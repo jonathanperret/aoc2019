@@ -12,7 +12,7 @@ function set(addr, val) {
 }
 
 function input() {
-  getline inputline < "day5input.txt";
+  getline inputline < INPUT;
   printf "INPUT: %d\n", inputline;
   return int(inputline);
 }
@@ -48,7 +48,9 @@ function setp(pc, pmodes, idx, val) {
       pmodes[p] = pmode % 10;
       pmode = int(pmode / 10);
     }
-    # printf "pc=%d instr=%d opcode=%d pmodes=%d,%d,%d\n", pc, instr, opcode, pmodes[0], pmodes[1], pmodes[2] >> "/dev/stderr";
+    if(debug > 0) {
+      printf "pc=%d instr=%d opcode=%d pmodes=%d,%d,%d params=%d,%d,%d\n", pc, instr, opcode, pmodes[0], pmodes[1], pmodes[2], get(pc+1), get(pc+2), get(pc+3) >> "/dev/stderr";
+    }
     if(opcode == 99) {
       break;
     } else if (opcode == 1) {
@@ -63,6 +65,24 @@ function setp(pc, pmodes, idx, val) {
     } else if (opcode == 4) {
       output(getp(pc, pmodes, 0));
       pc += 2;
+    } else if (opcode == 5) {
+      if(getp(pc, pmodes, 0)) {
+        pc = getp(pc, pmodes, 1);
+      } else {
+        pc += 3;
+      }
+    } else if (opcode == 6) {
+      if(!getp(pc, pmodes, 0)) {
+        pc = getp(pc, pmodes, 1);
+      } else {
+        pc += 3;
+      }
+    } else if (opcode == 7) {
+      setp(pc, pmodes, 2, getp(pc, pmodes, 0) < getp(pc, pmodes, 1));
+      pc += 4;
+    } else if (opcode == 8) {
+      setp(pc, pmodes, 2, getp(pc, pmodes, 0) == getp(pc, pmodes, 1));
+      pc += 4;
     } else {
       printf "FAIL at pc=%d, opcode=%d\n%s\n", pc, opcode, $0 >> "/dev/stderr"
       exit 1;
