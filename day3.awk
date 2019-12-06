@@ -10,6 +10,7 @@ function abs(x) {
 {
   x = 0;
   y = 0;
+  steps = 0;
   for(n = 1; n <= NF; n++) {
     cmd = $n;
     dir = substr(cmd, 1, 1);
@@ -30,14 +31,17 @@ function abs(x) {
     for(i = 0; i < len; i++) {
       x += dx;
       y += dy;
+      steps++;
 
       key = x "_" y;
 
       if (NR == 1) {
-        points[key] = 1;
+        if (!points[key]) {
+          points[key] = steps;
+        }
       } else {
         if (points[key]) {
-          print abs(x) + abs(y)
+          print steps + points[key];
         }
       }
     }
