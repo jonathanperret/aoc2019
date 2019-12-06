@@ -1,0 +1,1 @@
+orbs=require("fs").readFileSync("day6.txt","ascii").split("\n").flatMap(s=>[s.split(")"),s.split(")").reverse()]); yd={"YOU":0}; while(!("SAN" in yd)) { orbs.forEach(([a,b])=>{if(a in yd && !(b in yd)) yd[b]=yd[a]+1; }) }; console.log(yd.SAN - 2)
