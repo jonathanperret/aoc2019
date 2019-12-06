@@ -10,20 +10,19 @@ BEGIN {
 
 END {
   start=orbits["YOU"];
-  target=orbits["SAN"];
-  youdistance[start] = 0;
-  while(!(target in youdistance)) {
-    printf "iteration %d\n", iter++;
-    for(orbiter in orbits) {
-      orbitee = orbits[orbiter];
-      if((orbiter in youdistance) && !(orbitee in youdistance)) {
-        youdistance[orbitee] = youdistance[orbiter] + 1;
-        printf "< [%s]=%d\n", orbitee, youdistance[orbitee];
-      } else if((orbitee in youdistance) && !(orbiter in youdistance)) {
-        youdistance[orbiter] = youdistance[orbitee] + 1;
-        printf "> [%s]=%d\n", orbiter, youdistance[orbiter];
-      }
-    }
+  distance = 0;
+  while(start in orbits) {
+    chain[start] = distance++;
+    start = orbits[start];
   }
-  print youdistance[target];
+  target=orbits["SAN"];
+  distance = 0;
+  while(target in orbits) {
+    if(target in chain) {
+      print chain[target] + distance;
+      exit;
+    }
+    distance++;
+    target = orbits[target];
+  }
 }
