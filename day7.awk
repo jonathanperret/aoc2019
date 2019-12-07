@@ -1,7 +1,7 @@
 #! /usr/bin/awk -f
 
 function get(addr) {
-  return $(1 + addr);
+  return int($(1 + addr));
 }
 
 function set(addr, val) {
@@ -34,12 +34,12 @@ function ea(addr, pmodes, idx) {
   return addr;
 }
 
-function getp(pc, pmodes, idx) {
+function getp(idx) {
   return get(ea(pc, pmodes, idx));
 }
 
-function setp(pc, pmodes, idx, val) {
-  set(ea(pc, modes, idx), val);
+function setp(idx, val) {
+  set(ea(pc, pmodes, idx), val); # should not support immediate writes but whatever
 }
 
 BEGIN {
@@ -49,7 +49,7 @@ BEGIN {
   getline < CODE;
   while(1) {
     if(debug>1) print $0;
-    instr = int(get(pc));
+    instr = get(pc);
     opcode = instr % 100;
     pmode = int(instr / 100);
     delete pmodes;
@@ -63,34 +63,34 @@ BEGIN {
     if(opcode == 99) {
       break;
     } else if (opcode == 1) {
-      setp(pc, pmodes, 2, getp(pc, pmodes, 0) + getp(pc, pmodes, 1));
+      setp(2, getp(0) + getp(1));
       pc += 4;
     } else if (opcode == 2) {
-      setp(pc, pmodes, 2, getp(pc, pmodes, 0) * getp(pc, pmodes, 1));
+      setp(2, getp(0) * getp(1));
       pc += 4;
     } else if (opcode == 3) {
-      setp(pc, pmodes, 0, input());
+      setp(0, input());
       pc += 2;
     } else if (opcode == 4) {
-      output(getp(pc, pmodes, 0));
+      output(getp(0));
       pc += 2;
     } else if (opcode == 5) {
-      if(getp(pc, pmodes, 0)) {
-        pc = getp(pc, pmodes, 1);
+      if(getp(0)) {
+        pc = getp(1);
       } else {
         pc += 3;
       }
     } else if (opcode == 6) {
-      if(!getp(pc, pmodes, 0)) {
-        pc = getp(pc, pmodes, 1);
+      if(!getp(0)) {
+        pc = getp(1);
       } else {
         pc += 3;
       }
     } else if (opcode == 7) {
-      setp(pc, pmodes, 2, getp(pc, pmodes, 0) < getp(pc, pmodes, 1));
+      setp(2, getp(0) < getp(1));
       pc += 4;
     } else if (opcode == 8) {
-      setp(pc, pmodes, 2, getp(pc, pmodes, 0) == getp(pc, pmodes, 1));
+      setp(2, getp(0) == getp(1));
       pc += 4;
     } else {
       printf "FAIL at pc=%d, opcode=%d\n%s\n", pc, opcode, $0 >> "/dev/stderr"
