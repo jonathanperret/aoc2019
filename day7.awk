@@ -1,7 +1,4 @@
-BEGIN {
-  FS = ",";
-  pc = 0;
-}
+#! /usr/bin/awk -f
 
 function get(addr) {
   return $(1 + addr);
@@ -12,7 +9,7 @@ function set(addr, val) {
 }
 
 function input() {
-  if((getline inputline < INPUT) > 0) {
+  if((getline inputline) > 0) {
     if(debug)
       printf "INPUT: %d\n", inputline >> "/dev/stderr";
     return int(inputline);
@@ -45,7 +42,11 @@ function setp(pc, pmodes, idx, val) {
   set(ea(pc, modes, idx), val);
 }
 
-{
+BEGIN {
+  FS = ",";
+  pc = 0;
+  if(!CODE) CODE=ENVIRON["CODE"];
+  getline < CODE;
   while(1) {
     if(debug>1) print $0;
     instr = int(get(pc));
@@ -96,4 +97,5 @@ function setp(pc, pmodes, idx, val) {
       exit 1;
     }
   }
+  exit
 }
