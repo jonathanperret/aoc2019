@@ -1,7 +1,45 @@
 #!/usr/bin/awk -f
 
-BEGIN {FS="";layerlength=25*6;min0=999999999999;}
+BEGIN {
+  FS="";
+  imagewidth=ENVIRON["IMAGEWIDTH"];
+  imageheight=ENVIRON["IMAGEHEIGHT"];
+  layerlength=imagewidth * imageheight;
+  glyphs[0] = " ";
+  glyphs[1] = "█";
+  glyphs[2] = "░";
+}
 
-{for(i=1;i<=NF;i++){ pixel=$i; stats[$i]++;   if(i%layerlength == 0) { if(stats[0]<min0){ min0=stats[0];result=stats[1]*stats[2]}  delete stats; layer++ } }}
+function showimage() {
+  for(y=0;y<imageheight;y++) {
+    for(x=0;x<imagewidth;x++) {
+      printf "%s", glyphs[composite[y*imagewidth+x]];
+    }
+    printf "\n";
+  }
+}
 
-END {print result}
+{
+  layeroffset = 0;
+  for(i=0;i<layerlength;i++) {
+    composite[i]=2;
+  }
+  for(i=1;i<=NF;i++){
+    pixel=$i;
+
+    if (pixel < 2 && composite[layeroffset] >= 2) {
+      composite[layeroffset] = pixel;
+    }
+
+    layeroffset++;
+
+    if(layeroffset == layerlength) {
+      layer++;
+      layeroffset = 0;
+      showimage();
+      print "----------";
+    }
+  }
+  showimage();
+  exit
+}
