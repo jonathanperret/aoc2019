@@ -1,6 +1,8 @@
 #! /usr/bin/awk -f
 
-function get(addr) {
+function get(addr, quiet) {
+  if(debug >= 2 && !quiet)
+    printf "GET: [%d]: %d\n", addr, $(1 + addr) >> "/dev/stderr";
   return int($(1 + addr));
 }
 
@@ -52,6 +54,7 @@ function setp(idx, val) {
 
 BEGIN {
   FS = ",";
+  OFS = ",";
   pc = 0;
   if(!CODE) CODE=ENVIRON["CODE"];
   getline < CODE;
@@ -66,7 +69,7 @@ BEGIN {
       pmode = int(pmode / 10);
     }
     if(debug > 0) {
-      printf "pc=%d relbase=%d instr=%d opcode=%d pmodes=%d,%d,%d params=%d,%d,%d\n", pc, relbase, instr, opcode, pmodes[0], pmodes[1], pmodes[2], get(pc+1), get(pc+2), get(pc+3) >> "/dev/stderr";
+      printf "pc=%d relbase=%d instr=%d opcode=%d pmodes=%d,%d,%d params=%d,%d,%d\n", pc, relbase, instr, opcode, pmodes[0], pmodes[1], pmodes[2], get(pc+1,1), get(pc+2,1), get(pc+3,1) >> "/dev/stderr";
     }
     if(opcode == 99) {
       break;
