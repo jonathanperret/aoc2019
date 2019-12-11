@@ -65,7 +65,6 @@ function dump_panels() {
   glyphs[1] = "██";
 
   for(py=ymax; py>=ymin; py--) {
-    # printf "%s ", int(py) >> "/dev/stderr";
     for(px=xmin; px<=xmax; px++) {
       ploc = px"_"py;
       pcol = int(panels[ploc]);
@@ -75,9 +74,21 @@ function dump_panels() {
   }
 }
 
+function sendpbmto(cmd) {
+  printf "P1\n%d %d\n", xmax - xmin + 1, ymax - ymin + 1 | cmd;
+  for(py=ymax; py>=ymin; py--) {
+    for(px=xmin; px<=xmax; px++) {
+      ploc = px"_"py;
+      pcol = int(panels[ploc]);
+      printf "%d ", pcol | cmd;
+    }
+  }
+}
+
 END {
   printf "painted %d\n", length(visited) >> "/dev/stderr";
   printf "xmin=%d, xmax=%d\n", xmin, xmax >> "/dev/stderr";
   printf "ymin=%d, ymax=%d\n", ymin, ymax >> "/dev/stderr";
   dump_panels();
+  sendpbmto("convert -trim -bordercolor white -border 1 - -|tesseract --psm 13 --dpi 70 stdin stdout|head -1 >&2");
 }
