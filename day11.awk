@@ -10,8 +10,12 @@ BEGIN {
   dir = 0; # up
   x = 0; y = 0;
   painted = 0;
+  xmin=99999999;
+  ymin=99999999;
+  xmax=-99999999;
+  ymax=-99999999;
 
-  output(0);
+  output(1);
 }
 
 {
@@ -19,7 +23,7 @@ BEGIN {
 
   printf "got color %d from brain\n", color >> "/dev/stderr";
 
-  loc = x"_"y;
+  loc = int(x)"_"int(y);
   printf "painting %d,%d (%s) with %d\n", x, y, loc, color >> "/dev/stderr";
   if(!visited[loc]) {
     printf "painting new panel!\n" >> "/dev/stderr";
@@ -41,12 +45,39 @@ BEGIN {
   if(dir == 2) y -= 1;
   if(dir == 3) x -= 1;
 
+  if(x<xmin) xmin=x;
+  if(y<ymin) ymin=y;
+
+  if(x>xmax) xmax=x;
+  if(y>ymax) ymax=y;
+
   printf "now at %d,%d facing %d painted %d = %d\n", x, y, dir, length(visited), length(panels) >> "/dev/stderr";
 
-  loc = x"_"y;
+  loc = int(x)"_"int(y);
   output(int(panels[loc]));
+  # dump_panels();
+}
+
+function dump_panels() {
+  # print "dumping" >> "/dev/stderr";
+  printf "%d %d %d %d\n", xmin, xmax, ymin, ymax >> "/dev/stderr";
+  glyphs[0] = "  ";
+  glyphs[1] = "██";
+
+  for(py=ymax; py>=ymin; py--) {
+    # printf "%s ", int(py) >> "/dev/stderr";
+    for(px=xmin; px<=xmax; px++) {
+      ploc = px"_"py;
+      pcol = int(panels[ploc]);
+      printf "%s", glyphs[pcol] >> "/dev/stderr";
+    }
+    printf "\n" >> "/dev/stderr";
+  }
 }
 
 END {
   printf "painted %d\n", length(visited) >> "/dev/stderr";
+  printf "xmin=%d, xmax=%d\n", xmin, xmax >> "/dev/stderr";
+  printf "ymin=%d, ymax=%d\n", ymin, ymax >> "/dev/stderr";
+  dump_panels();
 }
