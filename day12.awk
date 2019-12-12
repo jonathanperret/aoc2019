@@ -1,9 +1,10 @@
-#! /usr/local/Cellar/gawk/5.0.1/libexec/gnubin/awk --lint=invalid -f
+#! /usr/local/Cellar/gawk/5.0.1/libexec/gnubin/awk --lint=invalid --bignum -f
 
 BEGIN {
   FS=" ";
   step=0;
-  if(!debug) debug=0;
+  debug=strtonum("DEBUG" in ENVIRON ? ENVIRON["DEBUG"] : "0");
+  delete period;
 }
 
 {
@@ -17,13 +18,11 @@ BEGIN {
 }
 
 function dumpmoons() {
-  if(debug) {
-    printf "After %d steps:\n", step;
-    for(moon=0; moon<nmoons; moon++) {
-      printf "pos=<x=%2d, y=%2d, z=%2d>, vel=<x=%2d, y=%2d, z=%2d>\n", xpos[moon], ypos[moon], zpos[moon], xvel[moon], yvel[moon], zvel[moon];
-    }
-    printf "\n";
+  printf "After %d steps:\n", step;
+  for(moon=0; moon<nmoons; moon++) {
+    printf "pos=<x=%2d, y=%2d, z=%2d>, vel=<x=%2d, y=%2d, z=%2d>\n", xpos[moon], ypos[moon], zpos[moon], xvel[moon], yvel[moon], zvel[moon];
   }
+  printf "\n";
 }
 
 function applygravity(pos, vel, m1, m2) {
@@ -92,37 +91,37 @@ function lcm(m, n,    r) {
   return r < 0 ? -r : r
 }
 
-function simulate() {
+function simulateaxis(pos, vel, states, axis) {
+  if (axis in period) return;
   for(moon=0; moon<nmoons; moon++) {
     for(moon2=moon+1; moon2<nmoons; moon2++) {
-      applygravity(xpos, xvel, moon, moon2);
-      applygravity(ypos, yvel, moon, moon2);
-      applygravity(zpos, zvel, moon, moon2);
+      applygravity(pos, vel, moon, moon2);
     }
   }
   for(moon=0; moon<nmoons; moon++) {
-    applyvelocity(xpos, xvel, moon);
-    applyvelocity(ypos, yvel, moon);
-    applyvelocity(zpos, zvel, moon);
+    applyvelocity(pos, vel, moon);
   }
-  checkstate(xpos, xvel, xstates, "x");
-  checkstate(ypos, yvel, ystates, "y");
-  checkstate(zpos, zvel, zstates, "z");
+  checkstate(pos, vel, states, axis);
+}
+
+function simulate() {
+  simulateaxis(xpos, xvel, xstates, "x");
+  simulateaxis(ypos, yvel, ystates, "y");
+  simulateaxis(zpos, zvel, zstates, "z");
   printf "%d got %d periods\n", step, length(period);
-  if(length(period) == 3) {
-    printf "Found all periods!\n";
-    printf "Global period: %d\n", lcm(period["x"], period["y"], period["z"]);
-    exit(0);
-  }
 }
 
 END {
   nmoons = length(xpos);
-  for(step=0; step<maxsteps; step++) {
-    dumpmoons();
+  for(step=0; step<maxsteps && length(period)<3; step++) {
+    if (debug) dumpmoons();
     simulate();
   }
   dumpmoons();
-
   dumpenergy();
+
+  if(length(period) == 3) {
+    printf "Found all periods! %d %d %d\n", period["x"], period["y"], period["z"];
+    printf "Global period: %d\n", lcm(lcm(period["x"], period["y"]), period["z"]);
+  }
 }
