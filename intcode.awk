@@ -1,4 +1,4 @@
-#! /usr/bin/awk -f
+#! /usr/local/Cellar/gawk/5.0.1/libexec/gnubin/awk --lint=invalid --bignum -f
 
 function get(addr, quiet) {
   if(debug >= 2 && !quiet)
@@ -17,6 +17,12 @@ function incbase(val) {
 }
 
 function input() {
+  if(debug)
+    printf "INPUT?\n" >> "/dev/stderr";
+  if(ctscode) {
+    print ctscode;
+    fflush();
+  }
   if((getline inputline) > 0) {
     if(debug)
       printf "INPUT: %d\n", inputline >> "/dev/stderr";
@@ -31,10 +37,11 @@ function output(val) {
   if(debug)
     printf "OUTPUT: %d\n", val >> "/dev/stderr";
   print val;
+  fflush();
 }
 
-function ea(addr, pmodes, idx) {
-  addr = addr + 1 + idx;
+function ea(idx,   addr) {
+  addr = pc + 1 + idx;
   if (pmodes[idx] == 0) { # position mode
     addr = get(addr);
   } else if (pmodes[idx] == 2) { # relative mode
@@ -45,25 +52,31 @@ function ea(addr, pmodes, idx) {
 }
 
 function getp(idx) {
-  return get(ea(pc, pmodes, idx));
+  return get(ea(idx));
 }
 
 function setp(idx, val) {
-  set(ea(pc, pmodes, idx), val); # should not support immediate writes but whatever
+  set(ea(idx), val); # should not support immediate writes but whatever
 }
 
 BEGIN {
+  ENVIRON["LANG"] = "C";
   FS = ",";
   OFS = ",";
   pc = 0;
+  relbase = 0;
   if(!CODE) CODE=ENVIRON["CODE"];
   getline < CODE;
+  close(CODE);
   while(1) {
     if(debug>2) print $0 >> "/dev/stderr";
     instr = get(pc);
     opcode = instr % 100;
     pmode = int(instr / 100);
     delete pmodes;
+    pmodes[0] = 0;
+    pmodes[1] = 0;
+    pmodes[2] = 0;
     for(p=0; pmode>0; p++) {
       pmodes[p] = pmode % 10;
       pmode = int(pmode / 10);
@@ -72,6 +85,8 @@ BEGIN {
       printf "pc=%d relbase=%d instr=%d opcode=%d pmodes=%d,%d,%d params=%d,%d,%d\n", pc, relbase, instr, opcode, pmodes[0], pmodes[1], pmodes[2], get(pc+1,1), get(pc+2,1), get(pc+3,1) >> "/dev/stderr";
     }
     if(opcode == 99) {
+      if(debug)
+        printf "HALTING\n" >> "/dev/stderr";
       break;
     } else if (opcode == 1) {
       setp(2, getp(0) + getp(1));
@@ -111,5 +126,6 @@ BEGIN {
       exit 1;
     }
   }
+  if(debug) close("/dev/stderr");
   exit
 }

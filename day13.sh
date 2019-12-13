@@ -1,0 +1,1 @@
+> /tmp/joystick.txt; > /tmp/screen.txt; > /tmp/out.txt; (tail -F /tmp/joystick.txt | awk -f ./intcode.awk -v ctscode=CTS -v debug=0 -v CODE=<(awk -F, '{OFS=","; $1=2; print}' day13.txt) 2>/tmp/out.txt|./day13.awk > /tmp/screen.txt)
