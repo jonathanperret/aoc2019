@@ -2,17 +2,21 @@
 
 BEGIN {
   ENVIRON["LANG"] = "C";
-  FS = " => "
-  nmats = 0;
-  currentmat = 0;
-  delete neededqs;
+  FS = " => ";
 }
 
-function parse(inputstr, outputstr,      out_q, out_q_mat) {
+function parse(inputstr, outputstr,      out_mat, out_q, out_q_mat, inputlist, in_mat_q, in_q, in_mat, in_mat_q_str, i) {
   split(outputstr, out_q_mat, " ");
   out_q = out_q_mat[1];
   out_mat = out_q_mat[2];
-  reqs[out_mat] = inputstr;
+  split(inputstr, inputlist, ", ");
+  for(i in inputlist) {
+    in_mat_q_str = inputlist[i];
+    split(in_mat_q_str, in_mat_q, " ");
+    in_q = in_mat_q[1];
+    in_mat = in_mat_q[2];
+    reqs[out_mat][in_mat] = in_q;
+  }
   out_quantity[out_mat] = out_q;
 }
 
@@ -20,47 +24,37 @@ function parse(inputstr, outputstr,      out_q, out_q_mat) {
   parse($1, $2);
 }
 
-function find_needed(mat,    react_count, needed_q, inputstr, inputlist, out_q, i, in_mat_q_str, in_mat_q, in_mat, in_q) {
-  if(!(mat in reqs)) {
+function find_needed(out_mat,    react_count, needed_q, inputstr, inputlist, out_q, in_mat) {
+  if(!(out_mat in reqs)) {
     return 0;
   }
-  needed_q = neededqs[mat];
-  inputstr = reqs[mat];
-  split(inputstr, inputlist, ", ");
-  out_q = out_quantity[mat];
+  needed_q = neededqs[out_mat];
+  out_q = out_quantity[out_mat];
   react_count = int(needed_q / out_q);
   if(needed_q % out_q > 0) react_count++;
-  for(i in inputlist) {
-    in_mat_q_str = inputlist[i];
-    split(in_mat_q_str, in_mat_q, " ");
-    in_q = in_mat_q[1];
-    in_mat = in_mat_q[2];
-    if(!(in_mat in neededqs))
-      neededqs[in_mat] = 0;
-    neededqs[in_mat] += in_q * react_count;
-    if(!(in_mat in usedqs))
-      usedqs[in_mat] = 0;
-    usedqs[in_mat] += in_q * react_count;
+  for(in_mat in reqs[out_mat]) {
+    neededqs[in_mat] = (in_mat in neededqs ? neededqs[in_mat] : 0) + reqs[out_mat][in_mat] * react_count;
   }
-  neededqs[mat] -= react_count * out_q;
+  neededqs[out_mat] -= react_count * out_q;
   return 1;
 }
 
-function produce_needed(     mat) {
-  while(1) {
+function produce_needed(     mat, again) {
+  again = 1;
+  while(again) {
     again = 0;
-    for(mat in neededqs) {
-      if(neededqs[mat] > 0 && mat in reqs) {
+    for(mat in reqs) {
+      if(mat in neededqs && neededqs[mat] > 0) {
         again += find_needed(mat);
-        break;
       }
     }
-    for(mat in neededqs) {
-      if(neededqs[mat] < 0) {
-        if(debug) printf "%s produced %d remaining %d\n", mat, usedqs[mat], -neededqs[mat];
+    if(debug) {
+      for(mat in neededqs) {
+        if(neededqs[mat] < 0) {
+          printf "%s remaining %d\n", mat, -neededqs[mat];
+        }
       }
     }
-    if(!again) break;
     if(debug) print "-------";
   }
 }
@@ -81,21 +75,20 @@ function produce_fuel(fuelq,       mat, prevneededqs, neededore) {
     copyarray(prevneededqs, neededqs);
     return 0;
   } else {
-    totalfuel += fuelq;
-    return 1;
+    return fuelq;
   }
 }
 
 END {
+  availableore = 1000000000000;
+  neededqs["ORE"] = -availableore;
   totalfuel = 0;
-  neededqs["ORE"] = -1000000000000;
-  fuelincr = 16777216;
+  fuelincr = 1;
+  while(fuelincr < availableore) fuelincr *= 2;
   while(fuelincr>0) {
-    printf "produced %d, remaining %d, trying to produce %d more\n", totalfuel, -neededqs["ORE"], fuelincr;
-    if(!produce_fuel(fuelincr)) {
-      print "nope"
-      fuelincr = int(fuelincr/2)
-    }
+    printf "produced %d fuel, remaining %d ore, trying to produce %d more\n", totalfuel, -neededqs["ORE"], fuelincr;
+    totalfuel += produce_fuel(fuelincr);
+    fuelincr = int(fuelincr/2);
   }
-  # if(debug) close("/dev/stderr");
+  printf "produced %d fuel, remaining %d ore\n", totalfuel, -neededqs["ORE"];
 }
