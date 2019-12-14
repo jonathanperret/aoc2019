@@ -2,26 +2,21 @@
 
 BEGIN {
   ENVIRON["LANG"] = "C";
-  FS = " => ";
+  FPAT = "[A-Z0-9]+";
 }
 
-function parse(inputstr, outputstr,      out_mat, out_q, out_q_mat, inputlist, in_mat_q, in_q, in_mat, in_mat_q_str, i) {
-  split(outputstr, out_q_mat, " ");
-  out_q = out_q_mat[1];
-  out_mat = out_q_mat[2];
-  split(inputstr, inputlist, ", ");
-  for(i in inputlist) {
-    in_mat_q_str = inputlist[i];
-    split(in_mat_q_str, in_mat_q, " ");
-    in_q = in_mat_q[1];
-    in_mat = in_mat_q[2];
-    reqs[out_mat][in_mat] = in_q;
-  }
+function parse(out_mat, out_q, i) {
+  out_q = $(NF - 1);
+  out_mat = $(NF);
+
   out_quantity[out_mat] = out_q;
+  for(i = 1; i < NF - 1; i+=2) {
+    reqs[out_mat][$(i + 1)] = $i;
+  }
 }
 
 {
-  parse($1, $2);
+  parse();
 }
 
 function find_needed(out_mat,    react_count, needed_q, inputstr, inputlist, out_q, in_mat) {
@@ -54,8 +49,8 @@ function produce_needed(     mat, again) {
           printf "%s remaining %d\n", mat, -neededqs[mat];
         }
       }
+      print "-------";
     }
-    if(debug) print "-------";
   }
 }
 
