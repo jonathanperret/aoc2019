@@ -1,4 +1,4 @@
-#! /usr/local/Cellar/gawk/5.0.1/libexec/gnubin/awk --lint=invalid --bignum -f
+#! /usr/local/Cellar/gawk/5.0.1/libexec/gnubin/awk --lint=no-ext --bignum -f
 
 BEGIN {
   ENVIRON["LANG"] = "C";
