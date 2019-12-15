@@ -22,6 +22,8 @@ BEGIN {
 
   optimizing=0;
   best_path_length=99999999999999;
+  delete oxygen;
+  d=0;
 }
 
 function copyarray(src, dest,      i) {
@@ -72,11 +74,11 @@ function draw_space(     nx, ny) {
       if(nx == x && ny == y)
         printf "D" >> "/dev/stderr";
       else {
-        if(nx == 0 && ny == 0)
+        if(optimizing <= 1 && nx == 0 && ny == 0)
           printf "X" >> "/dev/stderr";
-        else if((nx, ny) in path)
+        else if(optimizing <= 1 && (nx, ny) in path)
           printf "*" >> "/dev/stderr";
-        else if((nx, ny) in best_path)
+        else if(optimizing <= 1 && (nx, ny) in best_path)
           printf "•" >> "/dev/stderr";
         else if((nx, ny) in space)
           printf "%s", glyphs[int(space[nx, ny])] >> "/dev/stderr";
@@ -102,50 +104,47 @@ function backtrack(     dir) {
 }
 
 function pick_dir(     dir, nx, ny) {
-  if(optimizing) {
+  if(optimizing == 1) {
     if (space[x,y] == 3) {
       printf "at goal\n" >> "/dev/stderr";
-      exhausted[x,y]=1;
-      return backtrack();
-    }
-    if (length(moves) >= best_path_length) {
-      printf "longer than best\n" >> "/dev/stderr";
-      exhausted[x,y] = 1;
-      return backtrack();
-    }
-    for(dir=1; dir<5; dir++) {
-      nx = x; ny = y;
-      if(dir == 1) { ny++; }
-      if(dir == 2) { ny--; }
-      if(dir == 3) { nx--; }
-      if(dir == 4) { nx++; }
-      if(!((nx, ny) in space)) {
-        # unexplored: let's go!
-        printf "found unknown\n" >> "/dev/stderr";
-        push_move(dir, nx, ny);
-        return dir;
-      }
-      if(space[nx,ny] == 2) {
-        # hit a wall: move on
-        continue;
-      }
-      # an explored cell lies at nx,ny. should we go there ?
-      if((nx,ny) in path) {
-        # it's already on the path : nope!
-        continue;
-      } else {
-        # not on the path so far.
-        if(!((nx, ny) in exhausted)) {
-          printf "found unexhausted\n" >> "/dev/stderr";
+    } else {
+      for(dir=1; dir<5; dir++) {
+        nx = x; ny = y;
+        if(dir == 1) { ny++; }
+        if(dir == 2) { ny--; }
+        if(dir == 3) { nx--; }
+        if(dir == 4) { nx++; }
+        if(!((nx, ny) in space)) {
+          # unexplored: let's go!
+          printf "found unknown\n" >> "/dev/stderr";
           push_move(dir, nx, ny);
           return dir;
+        }
+        if(space[nx,ny] == 2) {
+          # hit a wall: move on
+          continue;
+        }
+        # an explored cell lies at nx,ny. should we go there ?
+        if((nx,ny) in path) {
+          # it's already on the path : nope!
+          continue;
+        } else {
+          # not on the path so far.
+          if(!((nx, ny) in exhausted)) {
+            printf "found unexhausted\n" >> "/dev/stderr";
+            push_move(dir, nx, ny);
+            return dir;
+          }
         }
       }
     }
     # could not find interesting dir. backtrack.
     printf "exhausted %d,%d\n", x, y >> "/dev/stderr";
     exhausted[x,y]=1;
-    return backtrack();
+    dir=backtrack();
+    if(dir>0) return dir;
+    # done scanning space
+    fill_oxygen();
   } else {
     for(dir=1; dir<5; dir++) {
       nx = x; ny = y;
@@ -166,8 +165,11 @@ function pick_dir(     dir, nx, ny) {
 /^CTS$/ {
   printf "got CTS\n" >> "/dev/stderr";
   d=pick_dir();
-  if(d<1) exit;
-  move(d);
+  if(d<1) {
+    fill_oxygen();
+  } else {
+    move(d);
+  }
   next;
 }
 
@@ -177,6 +179,8 @@ function pick_dir(     dir, nx, ny) {
   if(status == 0) { pop_move(); space[nextx,nexty] = 2; } # wall
   if(status == 1) { space[nextx,nexty] = 1; x=nextx; y=nexty; } # empty
   if(status == 2) {
+    oxygenx = nextx;
+    oxygeny = nexty;
     space[nextx,nexty] = 3;
     x=nextx;
     y=nexty;
@@ -189,13 +193,51 @@ function pick_dir(     dir, nx, ny) {
   }
 
   printf "now at %d,%d\n", x, y >> "/dev/stderr";
-  draw_space();
+  # draw_space();
 }
 
+function fill_at(nx, ny) {
+  if((nx,ny) in space) {
+    if(space[nx,ny] == 1) {
+      space[nx,ny] = 9;
+      return 1;
+    }
+  }
+  return 0;
+}
 
+function fill_oxygen(    xy, xya, x, y, time, again) {
+  optimizing = 2;
+  time = 0;
+  again = 1;
+  while(again) {
+    time++;
+    again=0;
+    for(xy in space) {
+      split(xy, xya, SUBSEP);
+      x = xya[1];
+      y = xya[2];
+      if(space[xy] == 3) {
+        # printf "filling from %d,%d\n", x, y >> "/dev/stderr";
+        again += fill_at(x+1, y  );
+        again += fill_at(x-1, y  );
+        again += fill_at(x  , y+1);
+        again += fill_at(x  , y-1);
+      }
+    }
+    for(xy in space) {
+      if(space[xy] == 9) {
+        space[xy] = 3;
+      }
+    }
+    if(!again) time--;
+    printf "after %d minutes:\n", time >> "/dev/stderr";
+    draw_space();
+  }
+}
 
 END {
-  printf "found oxygen at %d,%d\n", x, y >> "/dev/stderr";
+  printf "found oxygen at %d,%d\n", oxygenx, oxygeny >> "/dev/stderr";
 
   close("/dev/stderr");
 }
