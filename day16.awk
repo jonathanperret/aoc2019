@@ -22,9 +22,22 @@ function patternfor(outindex, n,    patoffset, patmult, patlen, patpos) {
 }
 
 function parse(     i) {
-  for(i=1; i<=NF; i++) {
-    currentlist[i-1] = $i;
+  inputlen = NF;
+  printf "input list length is %d\n", inputlen;
+  for(i=1;i<=NF;i++) {
+    printf "%d %d\n", i, $i;
   }
+  offset = 0 + substr($0, 1, 7);
+  printf "offset is %d\n", offset;
+  virtuallen = inputlen * 10000;
+  printf "virtual list length is %d\n", virtuallen;
+  taillen = virtuallen - offset;
+  printf "tail length is %d\n", taillen;
+  for(i=0; i<taillen; i++) {
+    currentlist[i] = $(1 + ((i + offset) % inputlen));
+    # printf "%d", currentlist[i];
+  }
+  printf "\n";
 }
 
 {
@@ -39,7 +52,7 @@ function copyarray(src, dest,      i) {
 }
 
 function printlist(l,   i) {
-  for(i=0; i<length(l); i++) {
+  for(i=0; i<8; i++) {
     printf "%d", l[i];
   }
   printf "\n";
@@ -49,35 +62,41 @@ function abs(x) {
   return x < 0 ? -x : x;
 }
 
-function buildphase(          outindex, inindex, elt) {
-  printlist(currentlist);
-  nextlist[1] = currentlist[1];
-
-  for(outindex=0; outindex<length(currentlist); outindex++) {
-    elt = 0;
-    for(inindex=0; inindex<length(currentlist); inindex++) {
-      # printf "for out %d at pos %d=(%d)\n", outindex, inindex, patternfor(outindex, inindex);
-      # printf "%d * %d + ", currentlist[inindex], patternfor(outindex, inindex) >> "/dev/stderr";
-      elt += currentlist[inindex] * patternfor(outindex, inindex);
-    }
-    # printf " = %d\n", elt >> "/dev/stderr";
-    nextlist[outindex] = abs(elt % 10);
+function buildphase(          outindex, elt) {
+  elt = currentlist[taillen - 1];
+  for(outindex=taillen - 2; outindex>=0; outindex--) {
+    # printf "[%d] %d = %d + %d\n", outindex, (elt + currentlist[outindex]) % 10, elt, currentlist[outindex];
+    elt = (elt + currentlist[outindex]) % 10;
+    currentlist[outindex] = elt;
   }
+  # printf "\n"
 }
 
 function loop(     step) {
   step = 0;
-  while(step<=100) {
+  while(step<=steps) {
     printf "step %d ", step;
+    printlist(currentlist);
     buildphase();
-    copyarray(nextlist, currentlist);
+    # copyarray(nextlist, currentlist);
     step++;
+  }
+}
+
+function printmatrix(n,     i, j) {
+  for(j=0; j<n; j++) {
+    for(i=0; i<n; i++) {
+      printf "%2d ", patternfor(i, j);
+    }
+    printf "\n";
   }
 }
 
 
 END {
   loop();
+  #printmatrix(steps);
 
   close("/dev/stderr");
 }
+
