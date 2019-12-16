@@ -2,13 +2,12 @@
 
 BEGIN {
   ENVIRON["LANG"] = "C";
-  #FPAT = "[A-Z0-9]+";
   delete space;
   delete shortest;
   delete moves;
   debug=debug;
 
-  x=0; y=0;
+  dronex=0; droney=0;
   minx=0;maxx=0;
   miny=0;maxy=0;
 
@@ -19,25 +18,13 @@ BEGIN {
 
   delete moves;
   delete path;
-
-  optimizing=0;
-  best_path_length=99999999999999;
-  delete oxygen;
-  d=0;
 }
 
-function copyarray(src, dest,      i) {
-  delete dest;
-  for(i in src) {
-    dest[i] = src[i];
-  }
-}
-
-function push_move(dir, nx, ny,       i) {
+function push_move(dir, x, y,       i) {
   i = length(moves);
   moves[i] = dir;
-  path_i[i] = nx SUBSEP ny;
-  path[nx,ny] = i;
+  path_i[i] = x SUBSEP y;
+  path[x,y] = i;
 }
 
 function pop_move(        i, pi, dir) {
@@ -51,8 +38,8 @@ function pop_move(        i, pi, dir) {
 }
 
 function move(dir) {
-  printf "sending %d\n", dir >> "/dev/stderr";
-  nextx = x; nexty = y;
+  if(debug) printf "sending %d\n", dir >> "/dev/stderr";
+  nextx = dronex; nexty = droney;
   if(dir == 1) { nexty++; }
   if(dir == 2) { nexty--; }
   if(dir == 3) { nextx--; }
@@ -67,33 +54,29 @@ function move(dir) {
   fflush();
 }
 
-function draw_space(     nx, ny) {
+function draw_space(     x, y) {
   printf "SPACE:\n" >> "/dev/stderr";
-  for(ny=maxy; ny>=miny; ny--) {
-    for(nx=minx; nx<=maxx; nx++) {
-      if(nx == x && ny == y)
+  for(y=maxy; y>=miny; y--) {
+    for(x=minx; x<=maxx; x++) {
+      if(x == dronex && y == droney)
         printf "D" >> "/dev/stderr";
-      else {
-        if(optimizing <= 1 && nx == 0 && ny == 0)
+      else if(x == 0 && y == 0)
           printf "X" >> "/dev/stderr";
-        else if(optimizing <= 1 && (nx, ny) in path)
-          printf "*" >> "/dev/stderr";
-        else if(optimizing <= 1 && (nx, ny) in best_path)
-          printf "•" >> "/dev/stderr";
-        else if((nx, ny) in space)
-          printf "%s", glyphs[int(space[nx, ny])] >> "/dev/stderr";
-        else
-          printf " " >> "/dev/stderr";
-      }
+      else if((x, y) in shortest)
+        printf "%d", shortest[x,y]%10 >> "/dev/stderr";
+      else if((x, y) in space)
+        printf "%s", glyphs[int(space[x, y])] >> "/dev/stderr";
+      else
+        printf " " >> "/dev/stderr";
     }
     printf "\n" >> "/dev/stderr";
   }
 }
 
 function backtrack(     dir) {
-  printf "backtracking!\n" >> "/dev/stderr";
+  if(debug) printf "backtracking!\n" >> "/dev/stderr";
   if(length(moves) == 0) {
-    printf "can't backtrack!\n" >> "/dev/stderr";
+    if(debug) printf "can't backtrack!\n" >> "/dev/stderr";
     return -1;
   }
   dir = pop_move();
@@ -103,103 +86,99 @@ function backtrack(     dir) {
   if(dir==4) return 3;
 }
 
-function pick_dir(     dir, nx, ny) {
-  if(optimizing == 1) {
-    if (space[x,y] == 3) {
-      printf "at goal\n" >> "/dev/stderr";
-    } else {
-      for(dir=1; dir<5; dir++) {
-        nx = x; ny = y;
-        if(dir == 1) { ny++; }
-        if(dir == 2) { ny--; }
-        if(dir == 3) { nx--; }
-        if(dir == 4) { nx++; }
-        if(!((nx, ny) in space)) {
-          # unexplored: let's go!
-          printf "found unknown\n" >> "/dev/stderr";
-          push_move(dir, nx, ny);
-          return dir;
-        }
-        if(space[nx,ny] == 2) {
-          # hit a wall: move on
-          continue;
-        }
-        # an explored cell lies at nx,ny. should we go there ?
-        if((nx,ny) in path) {
-          # it's already on the path : nope!
-          continue;
-        } else {
-          # not on the path so far.
-          if(!((nx, ny) in exhausted)) {
-            printf "found unexhausted\n" >> "/dev/stderr";
-            push_move(dir, nx, ny);
-            return dir;
-          }
-        }
-      }
+function pick_dir(     dir, x, y) {
+  for(dir=1; dir<5; dir++) {
+    x = dronex; y = droney;
+    if(dir == 1) { y++; }
+    if(dir == 2) { y--; }
+    if(dir == 3) { x--; }
+    if(dir == 4) { x++; }
+    if(!((x, y) in exhausted) && !((x,y) in path)) {
+      if(debug) printf "found unknown\n" >> "/dev/stderr";
+      push_move(dir, x, y);
+      return dir;
     }
-    # could not find interesting dir. backtrack.
-    printf "exhausted %d,%d\n", x, y >> "/dev/stderr";
-    exhausted[x,y]=1;
-    dir=backtrack();
-    if(dir>0) return dir;
-    # done scanning space
+  }
+  exhausted[dronex, droney] = 1;
+  return backtrack();
+}
+
+function find_best_path(     distance, x, y, xya, xy, again) {
+  again = 1;
+  distance = 0;
+  shortest[0, 0] = 0;
+  while(again) {
+    again = 0;
+    for(xy in space) {
+      if(!(xy in shortest)) continue;
+      if(shortest[xy] != distance) continue;
+
+      split(xy, xya, SUBSEP);
+      x = xya[1];
+      y = xya[2];
+
+      again += expand_fringe(x+1, y, distance);
+      again += expand_fringe(x-1, y, distance);
+      again += expand_fringe(x, y+1, distance);
+      again += expand_fringe(x, y-1, distance);
+    }
+    distance++;
+    if(debug>=2) draw_space();
+  }
+  printf "shortest path to oxygen is %d long\n", shortest[oxygenx, oxygeny] >> "/dev/stderr";
+  delete shortest;
+}
+
+function expand_fringe(x, y, distance) {
+  if(!((x,y) in space)) return 0;
+  if(space[x,y] == 2) return 0;
+  if((x,y) in shortest) return 0;
+  shortest[x,y] = distance + 1;
+  return 1;
+}
+
+function next_input(     d) {
+  d=pick_dir();
+  if(d<1) {
+    printf "found oxygen at %d,%d\n", oxygenx, oxygeny >> "/dev/stderr";
+    draw_space();
+    find_best_path();
     fill_oxygen();
+    exit;
   } else {
-    for(dir=1; dir<5; dir++) {
-      nx = x; ny = y;
-      if(dir == 1) { ny++; }
-      if(dir == 2) { ny--; }
-      if(dir == 3) { nx--; }
-      if(dir == 4) { nx++; }
-      if(!((nx, ny) in space)) {
-        printf "found unknown\n" >> "/dev/stderr";
-        push_move(dir, nx, ny);
-        return dir;
-      }
-    }
-    return backtrack();
+    move(d);
   }
 }
 
 /^CTS$/ {
-  printf "got CTS\n" >> "/dev/stderr";
-  d=pick_dir();
-  if(d<1) {
-    fill_oxygen();
-  } else {
-    move(d);
-  }
+  if(debug) printf "got CTS\n" >> "/dev/stderr";
+  next_input();
   next;
 }
 
-{
-  status=$1;
-  printf "at %d %d %d\n", nextx, nexty, status >> "/dev/stderr";
-  if(status == 0) { pop_move(); space[nextx,nexty] = 2; } # wall
-  if(status == 1) { space[nextx,nexty] = 1; x=nextx; y=nexty; } # empty
+function process_status(status) {
+  if(status == 0) { pop_move(); exhausted[nextx,nexty] = 1; space[nextx,nexty] = 2; } # wall
+  if(status == 1) { space[nextx,nexty] = 1; dronex=nextx; droney=nexty; } # empty
   if(status == 2) {
     oxygenx = nextx;
     oxygeny = nexty;
     space[nextx,nexty] = 3;
-    x=nextx;
-    y=nexty;
-    optimizing = 1;
-    if(best_path_length > length(moves)) {
-      best_path_length = length(moves);
-      printf "best path now %d\n", best_path_length >> "/dev/stderr";
-      copyarray(path, best_path);
-    }
+    dronex=nextx;
+    droney=nexty;
   }
 
-  printf "now at %d,%d\n", x, y >> "/dev/stderr";
-  # draw_space();
+  if(debug) printf "now at %d,%d\n", dronex, droney >> "/dev/stderr";
+  if(debug>=2) draw_space();
 }
 
-function fill_at(nx, ny) {
-  if((nx,ny) in space) {
-    if(space[nx,ny] == 1) {
-      space[nx,ny] = 9;
+{
+  process_status(int($1));
+}
+
+function fill_at(x, y) {
+  if((x,y) in space) {
+    if(space[x,y] == 1) {
+      space[x,y] = 9; # will become oxygen
       return 1;
     }
   }
@@ -207,7 +186,6 @@ function fill_at(nx, ny) {
 }
 
 function fill_oxygen(    xy, xya, x, y, time, again) {
-  optimizing = 2;
   time = 0;
   again = 1;
   while(again) {
@@ -225,19 +203,21 @@ function fill_oxygen(    xy, xya, x, y, time, again) {
         again += fill_at(x  , y-1);
       }
     }
+    # fixup "to be oxygen" nodes to be oxygen
     for(xy in space) {
       if(space[xy] == 9) {
         space[xy] = 3;
       }
     }
     if(!again) time--;
-    printf "after %d minutes:\n", time >> "/dev/stderr";
-    draw_space();
+    if(debug>=2) {
+      printf "after %d minutes:\n", time >> "/dev/stderr";
+      draw_space();
+    }
   }
+  printf "Oxygen fills space in %d minutes.\n", time >> "/dev/stderr";
 }
 
 END {
-  printf "found oxygen at %d,%d\n", oxygenx, oxygeny >> "/dev/stderr";
-
   close("/dev/stderr");
 }
