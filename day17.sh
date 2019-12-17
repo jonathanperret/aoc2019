@@ -1,0 +1,1 @@
+cat day17prg-compressed.txt | od -t u1|awk '{for(i=2;i<=NF;i++) print $i}' | ./intcode.awk -v ctscode=CTS -v debug=0 -v CODE=<(awk -F, '{OFS=","; $1=2; print}' day17.txt) | tee /tmp/out.txt|gawk '{printf("%c", $1+0)}'

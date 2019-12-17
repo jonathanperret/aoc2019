@@ -3,6 +3,7 @@
 function get(addr, quiet) {
   if(debug >= 2 && !quiet)
     printf "GET: [%d]: %d\n", addr, $(1 + addr) >> "/dev/stderr";
+  if(addr >= NF) return 0;
   return int($(1 + addr));
 }
 

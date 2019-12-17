@@ -42,7 +42,7 @@ function find_intersections() {
   for(y = 0; y < height; y++) {
     for(x = 0; x < width; x++) {
       if(space[x,y] == "#" && space[x+1,y] == "#" && space[x-1,y] == "#" && space[x,y-1] == "#" && space[x,y+1] == "#") {
-        sum += x * y;
+        sum ++;
       }
     }
   }
