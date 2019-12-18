@@ -11,7 +11,8 @@ BEGIN {
   g_ymin = 0;
   g_ymax = 0;
   g_last_head = 0;
-  if(debug>2) printf "" >> "/dev/stderr";
+  printf "" >> "/dev/stderr";
+  delete g_head_pos;
 }
 
 function parse(      x, y) {
@@ -25,6 +26,22 @@ function parse(      x, y) {
     }
     g_space[x, y] = ch;
   }
+}
+
+function add_intersections(    x, y, n) {
+  n = 0;
+  for(y=0; y<=g_ymax; y++) {
+    for(x=0; x<=g_xmax; x++) {
+      if(cango(x,y) && cango(x+1,y) + cango(x-1,y) + cango(x,y+1) + cango(x,y-1) >= 3) {
+        if(debug>2) printf "Adding intersection at (%d,%d)\n", x, y;
+        g_space[x,y] = "(" n++ ")";
+      }
+    }
+  }
+}
+
+function cango(x, y) {
+  return ((x,y) in g_space) && !iswall(g_space[x,y]) && !isdoor(g_space[x,y]);
 }
 
 {
@@ -41,6 +58,10 @@ function isdoor(s) {
 
 function iswall(s) {
   return s == "#";
+}
+
+function isblank(s) {
+  return s == "." || s ~ /^\(/;
 }
 
 function create_head(head_pos, head_walked_distance, head_last_object, head_visited,   new_head_i) {
@@ -81,11 +102,11 @@ function advance_head_to(head_i, head_pos, head_walked_distance, head_last_objec
     if(debug>2) printf "Head %d found object '%s' at (%d, %d) after %d steps\n", head_i, tile, x, y, head_walked_distance + 1;
     if(tile in g_object_parent) {
       if(g_object_parent[tile] != head_last_object) {
-        if(debug>2) printf "%s has multiple parents! %s != %s\n", tile, head_last_object, g_object_parent[tile];
+        printf "%s has multiple parents! %s != %s\n", tile, head_last_object, g_object_parent[tile];
         exit 1;
       }
       if(g_object_parent_distance[tile] != head_walked_distance + 1) {
-        if(debug>2) printf "%s has multiple distances! %s != %s\n", tile, head_walked_distance + 1, g_object_parent_distance[tile];
+        printf "%s has multiple distances! %s != %s\n", tile, head_walked_distance + 1, g_object_parent_distance[tile];
         exit 1;
       }
     } else {
@@ -136,11 +157,11 @@ function print_space(     x, y, h, heads) {
   for(y=0; y<=g_ymax; y++) {
     for(x=0; x<=g_xmax; x++) {
       if((x,y) in heads)
-        if(debug>2) printf "%d", heads[x,y] % 10;
+        printf "%d", heads[x,y] % 10;
       else
-        if(debug>2) printf "%s", g_space[x,y];
+        printf "%s", substr(g_space[x,y], 1, 1);
     }
-    if(debug>2) printf "\n";
+    printf "\n";
   }
 }
 
@@ -160,7 +181,7 @@ function scan_maze(     x, y, xya, xy, visited, prev_visited, distance, current_
   distance = 0;
   again = 1;
   while(again) {
-    # print_space();
+    if(debug>3) print_space();
     again = 0;
     copyarray(g_head_pos, current_heads);
     for(head_i in current_heads) {
@@ -249,37 +270,37 @@ function build_graph(      obj, parent, distance) {
 
     set_graph_distance(obj, parent, distance);
   }
-#   set_graph_distance(1, 2, 4);
-#   set_graph_distance(1, 3, 4);
-#   #set_graph_distance(1, 4, 6);
-#   #set_graph_distance(1, 5, 6);
-#   set_graph_distance(1, 6, 4);
-#   set_graph_distance(1, 7, 2);
-#   set_graph_distance(2, 3, 2);
-#   set_graph_distance(2, 4, 4);
-#   set_graph_distance(2, 5, 4);
-#   #set_graph_distance(2, 6, 6);
-#   set_graph_distance(2, 7, 4);
-#   set_graph_distance(3, 4, 4);
-#   set_graph_distance(3, 5, 4);
-#   #set_graph_distance(3, 6, 6);
-#   set_graph_distance(3, 7, 4);
-#   set_graph_distance(4, 5, 2);
-#   set_graph_distance(4, 6, 4);
-#   #set_graph_distance(4, 7, 6);
-#   set_graph_distance(5, 6, 4);
-#   #set_graph_distance(5, 7, 6);
-#   set_graph_distance(6, 7, 4);
+   set_graph_distance(1, 2, 4);
+   set_graph_distance(1, 3, 4);
+   #set_graph_distance(1, 4, 6);
+   #set_graph_distance(1, 5, 6);
+   set_graph_distance(1, 6, 4);
+   set_graph_distance(1, 7, 2);
+   set_graph_distance(2, 3, 2);
+   set_graph_distance(2, 4, 4);
+   set_graph_distance(2, 5, 4);
+   #set_graph_distance(2, 6, 6);
+   set_graph_distance(2, 7, 4);
+   set_graph_distance(3, 4, 4);
+   set_graph_distance(3, 5, 4);
+   #set_graph_distance(3, 6, 6);
+   set_graph_distance(3, 7, 4);
+   set_graph_distance(4, 5, 2);
+   set_graph_distance(4, 6, 4);
+   #set_graph_distance(4, 7, 6);
+   set_graph_distance(5, 6, 4);
+   #set_graph_distance(5, 7, 6);
+   set_graph_distance(6, 7, 4);
 }
 
 function print_graph(graph,      obj, pair, pair_a) {
-  if(debug>2) printf "graph {\n";
-  if(debug>2) printf "  rankdir=\"LR\";\n";
+  printf "graph {\n";
+  printf "  rankdir=\"LR\";\n";
   for(pair in graph) {
     split(pair, pair_a, SUBSEP);
-    if(debug>2) printf "  \"%s\" -- \"%s\" [ label = \"%d\" ];\n", pair_a[1], pair_a[2], graph[pair];
+    printf "  \"%s\" -- \"%s\" [ label = \"%d\" ];\n", pair_a[1], pair_a[2], graph[pair];
   }
-  if(debug>2) printf "}\n";
+  printf "}\n";
 }
 
 function find_neighbors(graph, from_object, out_neighbors,    neighbor_count, pair, pair_a, n_obj) {
@@ -303,16 +324,16 @@ function neighbors_by_distance(i1, v1, i2, v2,    a1, a2) {
   split(v1, a1, SUBSEP);
   split(v2, a2, SUBSEP);
 
-  ideal = "afbjgnhdloepcikm";
-
-  if(index(ideal, a1[1]) < index(ideal,a2[1])) {
-    return -1;
-  } else if(index(ideal, a1[1]) == index(ideal,a2[1])) {
-    return 0;
-  } else {
-    return 1;
-  }
-
+#   ideal = "afbjgnhdloepcikm";
+# 
+#   if(index(ideal, a1[1]) < index(ideal,a2[1])) {
+#     return -1;
+#   } else if(index(ideal, a1[1]) == index(ideal,a2[1])) {
+#     return 0;
+#   } else {
+#     return 1;
+#   }
+# 
 
   if(a1[1] < a2[1]) {
     return -1;
@@ -346,7 +367,7 @@ function optimize(depth, graph, current_object, path, steps, keyset,        pref
 
   keyset_with_pos = keyset "/" current_object;
 
-  if(debug>1) printf "PATH: %-30s KEYSET: %-30s STEPS:%d\n", path, keyset_with_pos, steps;
+  if(debug>1) printf "PATH: %-130s KEYSET: %-30s STEPS:%d\n", path, keyset_with_pos, steps;
 
   if(keyset_with_pos in g_known_keysets) {
     if(steps < g_known_keysets[keyset_with_pos]) {
@@ -381,6 +402,7 @@ function optimize(depth, graph, current_object, path, steps, keyset,        pref
       printf "GOT ALL KEYS in %d steps\n", steps;
       if (steps < g_best_steps) {
         printf "NEW RECORD %d steps\n", steps;
+        g_best_path = path;
         g_best_steps = steps;
       }
       return;
@@ -456,17 +478,45 @@ function init_keyset(      keyset_a, keyset, i, n, pair) {
   return keyset;
 }
 
+function remove_useless_nodes(graph,    edgecounts, again, pair, pair_a, obj, tmp_graph) {
+  again = 1;
+  while(again) {
+    again = 0;
+    delete edgecounts;
+    for(pair in graph) {
+      split(pair, pair_a, SUBSEP);
+
+      if(isblank(pair_a[1])) { if (pair_a[1] in edgecounts) edgecounts[pair_a[1]]++; else edgecounts[pair_a[1]] = 1; }
+      if(isblank(pair_a[2])) { if (pair_a[2] in edgecounts) edgecounts[pair_a[2]]++; else edgecounts[pair_a[2]] = 1; }
+    }
+    for(obj in edgecounts) {
+      if(edgecounts[obj] == 2) {
+        if(debug>1) printf "Need to remove %s\n", obj;
+        again = 1;
+        remove_graph_node(graph, obj, tmp_graph);
+        copyarray(tmp_graph, graph);
+      }
+    }
+  }
+}
+
 END {
   g_ymax = NR - 1;
+  add_intersections();
+  print_space();
   scan_maze();
-  remove_useless_doors();
+  # remove_useless_doors();
   build_graph();
   print_graph(g_graph);
+  remove_useless_nodes(g_graph);
+  print_graph(g_graph);
   g_best_steps = 3452;
+  g_best_path = "";
   delete g_known_paths;
   delete g_known_keysets;
   delete g_known_keysets_path;
   optimize(0, g_graph, "@", "", 0, init_keyset());
+  printf "BEST PATH IS %s IN %d STEPS\n", g_best_path, g_best_steps;
   print "Done.";
   close("/dev/stderr");
   if(0) {
