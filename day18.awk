@@ -10,6 +10,7 @@ BEGIN {
   g_xmax = 0;
   g_ymin = 0;
   g_ymax = 0;
+  delete g_start_pos;
   g_last_head = 0;
   printf "" >> "/dev/stderr";
   delete g_head_pos;
@@ -21,8 +22,7 @@ function parse(      x, y) {
   for(x=0; x<NF; x++) {
     ch = $(x + 1);
     if(ch == "@") {
-      g_startx = x;
-      g_starty = y;
+      g_start_pos[length(g_start_pos)] = x SUBSEP y;
     }
     g_space[x, y] = ch;
   }
@@ -166,17 +166,38 @@ function print_space(     x, y, h, heads) {
 }
 
 function scan_maze(     x, y, xya, xy, visited, prev_visited, distance, current_heads, head_i, again, obj) {
-  if(debug>2) printf "Starting at %d, %d\n", g_startx, g_starty;
   delete visited;
   delete g_head_pos;
   delete g_head_last_object;
   delete g_head_walked_distance;
   delete g_head_visited;
 
-  g_head_pos[0] = g_startx SUBSEP g_starty;
-  g_head_last_object[0] = "@";
+  g_head_pos[0] = g_start_pos[0];
+  g_head_last_object[0] = "@0";
   g_head_walked_distance[0] = 0;
-  g_head_visited[0][g_startx, g_starty] = 1;
+  g_head_visited[0][g_head_pos[0]] = 1;
+
+  g_head_pos[1] = g_start_pos[1];
+  g_head_last_object[1] = "@1";
+  g_head_walked_distance[1] = 0;
+  g_head_visited[1][g_head_pos[1]] = 1;
+
+  g_head_pos[2] = g_start_pos[2];
+  g_head_last_object[2] = "@2";
+  g_head_walked_distance[2] = 0;
+  g_head_visited[2][g_head_pos[2]] = 1;
+
+  g_head_pos[3] = g_start_pos[3];
+  g_head_last_object[3] = "@3";
+  g_head_walked_distance[3] = 0;
+  g_head_visited[3][g_head_pos[3]] = 1;
+
+  g_last_head = 3;
+
+  g_space[g_head_pos[0]] = ".";
+  g_space[g_head_pos[1]] = ".";
+  g_space[g_head_pos[2]] = ".";
+  g_space[g_head_pos[3]] = ".";
 
   distance = 0;
   again = 1;
@@ -219,8 +240,8 @@ function remove_useless_doors(    parents, leaves, obj, again) {
   }
 }
 
-function set_graph_distance(obj1, obj2, distance) {
-  if(obj1 > obj2) return set_graph_distance(obj2, obj1, distance);
+function set_graph_distance(graph, obj1, obj2, distance) {
+  if(obj1 > obj2) return set_graph_distance(graph, obj2, obj1, distance);
   g_graph[obj1, obj2] = distance;
 }
 
@@ -268,29 +289,29 @@ function build_graph(      obj, parent, distance) {
     distance = g_object_parent_distance[obj];
     # if(parent == "@") continue;
 
-    set_graph_distance(obj, parent, distance);
+    set_graph_distance(g_graph, obj, parent, distance);
   }
-   set_graph_distance(1, 2, 4);
-   set_graph_distance(1, 3, 4);
-   #set_graph_distance(1, 4, 6);
-   #set_graph_distance(1, 5, 6);
-   set_graph_distance(1, 6, 4);
-   set_graph_distance(1, 7, 2);
-   set_graph_distance(2, 3, 2);
-   set_graph_distance(2, 4, 4);
-   set_graph_distance(2, 5, 4);
-   #set_graph_distance(2, 6, 6);
-   set_graph_distance(2, 7, 4);
-   set_graph_distance(3, 4, 4);
-   set_graph_distance(3, 5, 4);
-   #set_graph_distance(3, 6, 6);
-   set_graph_distance(3, 7, 4);
-   set_graph_distance(4, 5, 2);
-   set_graph_distance(4, 6, 4);
-   #set_graph_distance(4, 7, 6);
-   set_graph_distance(5, 6, 4);
-   #set_graph_distance(5, 7, 6);
-   set_graph_distance(6, 7, 4);
+#    set_graph_distance(g_graph, 1, 2, 4);
+#    set_graph_distance(g_graph, 1, 3, 4);
+#    set_graph_distance(g_graph, 1, 4, 6);
+#    set_graph_distance(g_graph, 1, 5, 6);
+#    set_graph_distance(g_graph, 1, 6, 4);
+#    set_graph_distance(g_graph, 1, 7, 2);
+#    set_graph_distance(g_graph, 2, 3, 2);
+#    set_graph_distance(g_graph, 2, 4, 4);
+#    set_graph_distance(g_graph, 2, 5, 4);
+#    set_graph_distance(g_graph, 2, 6, 6);
+#    set_graph_distance(g_graph, 2, 7, 4);
+#    set_graph_distance(g_graph, 3, 4, 4);
+#    set_graph_distance(g_graph, 3, 5, 4);
+#    set_graph_distance(g_graph, 3, 6, 6);
+#    set_graph_distance(g_graph, 3, 7, 4);
+#    set_graph_distance(g_graph, 4, 5, 2);
+#    set_graph_distance(g_graph, 4, 6, 4);
+#    set_graph_distance(g_graph, 4, 7, 6);
+#    set_graph_distance(g_graph, 5, 6, 4);
+#    set_graph_distance(g_graph, 5, 7, 6);
+#    set_graph_distance(g_graph, 6, 7, 4);
 }
 
 function print_graph(graph,      obj, pair, pair_a) {
@@ -324,15 +345,15 @@ function neighbors_by_distance(i1, v1, i2, v2,    a1, a2) {
   split(v1, a1, SUBSEP);
   split(v2, a2, SUBSEP);
 
-   ideal = "dyrlfibhpgeoctnsqavwkxzujm";
-
-   if(index(ideal, a1[1]) < index(ideal,a2[1])) {
-     return -1;
-   } else if(index(ideal, a1[1]) == index(ideal,a2[1])) {
-     return 0;
-   } else {
-     return 1;
-   }
+#    ideal = "dyrlfibhpgeoctnsqavwkxzujm";
+# 
+#    if(index(ideal, a1[1]) < index(ideal,a2[1])) {
+#      return -1;
+#    } else if(index(ideal, a1[1]) == index(ideal,a2[1])) {
+#      return 0;
+#    } else {
+#      return 1;
+#    }
 
   if(a1[1] < a2[1]) {
     return -1;
@@ -516,28 +537,40 @@ function remove_intersections(graph,     pair, pair_a, obj, objects, tmp_graph) 
   }
 }
 
+function connect_extra_bots(graph) {
+  set_graph_distance(graph, "@0", "@1", 0);
+  set_graph_distance(graph, "@0", "@2", 0);
+  set_graph_distance(graph, "@0", "@3", 0);
+  set_graph_distance(graph, "@1", "@2", 0);
+  set_graph_distance(graph, "@1", "@3", 0);
+  set_graph_distance(graph, "@2", "@3", 0);
+}
+
 END {
   g_ymax = NR - 1;
   add_intersections();
   print_space();
   scan_maze();
-  # remove_useless_doors();
+  remove_useless_doors();
   build_graph();
   print_graph(g_graph);
   # remove_useless_nodes(g_graph);
   remove_intersections(g_graph);
   print_graph(g_graph);
-  g_best_steps = 993452;
+  connect_extra_bots(g_graph);
+  print_graph(g_graph);
+  g_best_steps = 992780;
   g_best_path = "";
   delete g_known_paths;
   delete g_known_keysets;
   delete g_known_keysets_path;
-  optimize(0, g_graph, "@", "", 0, init_keyset());
+  optimize(0, g_graph, "@0", "", 0, init_keyset());
   printf "BEST PATH IS %s IN %d STEPS\n", g_best_path, g_best_steps;
   print "Done.";
   close("/dev/stderr");
   if(0) {
     print_space();
     neighbors_by_distance();
+    remove_useless_nodes();
   }
 }
