@@ -370,21 +370,6 @@ function move_to_object(depth, graph, to_object, path, steps, keyset,        pre
     g_known_keysets_path[keyset] = path;
   }
 
-  if(length(path)>0) {
-    if(path in g_known_paths) {
-      if(steps < g_known_paths[path]) {
-        if(debug>2) printf "%snew record for path %s: %d steps\n", prefix, path, steps;
-        g_known_paths[path] = steps;
-      } else {
-        if(debug>2) printf "%salready better known for path %s: %d <= %d steps\n", prefix, path, g_known_paths[path], steps;
-        return;
-      }
-    } else {
-      if(debug>2) printf "%snew path %s: %d steps\n", prefix, path, steps;
-      g_known_paths[path] = steps;
-    }
-  }
-
   if(keyset ~ /^[a-z]+\//) {
     printf "GOT ALL KEYS in %d steps\n", steps;
     if (steps < g_best_steps) {
@@ -414,10 +399,6 @@ function move_from_object(depth, graph, from_object, path, steps, keyset, prefix
   delete neighbors;
   find_neighbors(graph, from_object, neighbors);
 
-  if(debug>2) printf "%s removing node '%s' from graph\n", prefix, from_object;
-  remove_graph_node(graph, from_object, new_graph);
-  if(debug>2) printf "%s new graph has %d edges\n", prefix, length(new_graph);
-
   neighbor_count = asort(neighbors, sorted_neighbors, "neighbors_by_distance");
 
   if(debug>2) {
@@ -430,6 +411,10 @@ function move_from_object(depth, graph, from_object, path, steps, keyset, prefix
     }
     printf "\n";
   }
+
+  if(debug>2) printf "%s removing node '%s' from graph\n", prefix, from_object;
+  remove_graph_node(graph, from_object, new_graph);
+
   for(n_i=1; n_i<=neighbor_count; n_i++) {
     split(sorted_neighbors[n_i], n_a, SUBSEP);
     n_obj = n_a[1];
@@ -526,7 +511,6 @@ END {
   print_graph(g_graph);
   g_best_steps = 992780;
   g_best_path = "";
-  delete g_known_paths;
   delete g_known_keysets;
   delete g_known_keysets_path;
   move_to_object(0, g_graph, "@0", "", 0, init_keyset());
