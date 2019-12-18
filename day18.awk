@@ -334,7 +334,7 @@ function neighbors_by_distance(i1, v1, i2, v2,    a1, a2, hint) {
   }
 }
 
-function move_to_object(depth, graph, to_object, path, steps, keyset,        prefix, neighbors, n_i, n_obj, n_dist, new_graph, door_opened_graph, neighbor_count, sorted_neighbors, n_a, edgesum, keyset_with_pos) {
+function move_to_object(depth, graph, to_object, path, steps, keyset,        prefix, door_opened_graph, keyset_with_pos) {
   prefix = "["depth"]" substr("                                                                                                                                                                                          ", 1, 1 + depth);
   if(debug>2) printf "%sentering node '%s'\n", prefix, to_object;
   if(debug>2) printf "%sinput graph has %d edges\n", prefix, length(graph);
@@ -407,17 +407,21 @@ function move_to_object(depth, graph, to_object, path, steps, keyset,        pre
 
   if (debug>3) print_graph(door_opened_graph);
 
-  delete neighbors;
-  find_neighbors(door_opened_graph, to_object, neighbors);
+  move_from_object(depth, door_opened_graph, to_object, path, steps, keyset,        prefix);
+}
 
-  if(debug>2) printf "%s removing node '%s' from graph\n", prefix, to_object;
-  remove_graph_node(door_opened_graph, to_object, new_graph);
+function move_from_object(depth, graph, from_object, path, steps, keyset, prefix,        n_i, n_obj, n_dist, new_graph, neighbors, neighbor_count, sorted_neighbors, n_a) {
+  delete neighbors;
+  find_neighbors(graph, from_object, neighbors);
+
+  if(debug>2) printf "%s removing node '%s' from graph\n", prefix, from_object;
+  remove_graph_node(graph, from_object, new_graph);
   if(debug>2) printf "%s new graph has %d edges\n", prefix, length(new_graph);
 
   neighbor_count = asort(neighbors, sorted_neighbors, "neighbors_by_distance");
 
   if(debug>2) {
-    printf "%s neighbors of %s:", prefix, to_object;
+    printf "%s neighbors of %s:", prefix, from_object;
     for(n_i=1; n_i<=neighbor_count; n_i++) {
       split(sorted_neighbors[n_i], n_a, SUBSEP);
       n_obj = n_a[1];
@@ -432,7 +436,6 @@ function move_to_object(depth, graph, to_object, path, steps, keyset,        pre
     n_dist = n_a[2];
     if(debug>2) printf "%s - '%s' at %d steps\n", prefix, n_obj, n_dist;
 
-    # print_graph(new_graph);
     if(isdoor(n_obj)) {
       if(debug>2) printf "%scannot go through door '%s'\n", prefix, n_obj;
       continue;
@@ -445,7 +448,6 @@ function move_to_object(depth, graph, to_object, path, steps, keyset,        pre
 
     move_to_object(depth + 1, new_graph, n_obj, path, steps + n_dist, keyset);
   }
-
 }
 
 function init_keyset(      keyset_a, keyset, i, n, pair) {
@@ -535,5 +537,6 @@ END {
     print_space();
     neighbors_by_distance();
     remove_useless_nodes();
+    connect_extra_bots();
   }
 }
