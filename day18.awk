@@ -136,6 +136,9 @@ function build_graph(     x, y, xya, xy, visited, prev_visited, distance, curren
     distance++;
   };
   printf "Found %d objects\n", length(g_object_parent);
+}
+
+function print_graph() {
   printf "graph {\n";
   printf "rankdir=\"LR\";\n";
   for(obj in g_object_parent) {
@@ -144,10 +147,36 @@ function build_graph(     x, y, xya, xy, visited, prev_visited, distance, curren
   printf "}\n";
 }
 
+function remove_useless_doors(    useless, obj) {
+  again = 1;
+  while(again) {
+    again = 0;
+    delete parents;
+    delete edges;
+    for(obj in g_object_parent) {
+      parents[g_object_parent[obj]] = 1;
+    }
+    for(obj in g_object_parent) {
+      if(!(obj in parents)) {
+        edges[obj] = 1;
+      }
+    }
+    printf "Found %d edges\n", length(edges);
+    for(obj in edges) {
+      if(isdoor(obj)) {
+        printf "Removing useless door %s\n", obj;
+        delete g_object_parent[obj];
+        again++;
+      }
+    }
+  }
+}
+
 END {
   g_ymax = NR - 1;
-  # find_accessible_keys();
   build_graph();
+  remove_useless_doors();
+  print_graph();
   print "Done.";
   close("/dev/stderr");
 }
