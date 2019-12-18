@@ -242,7 +242,7 @@ function remove_useless_doors(    parents, leaves, obj, again) {
 
 function set_graph_distance(graph, obj1, obj2, distance) {
   if(obj1 > obj2) return set_graph_distance(graph, obj2, obj1, distance);
-  g_graph[obj1, obj2] = distance;
+  graph[obj1, obj2] = distance;
 }
 
 function remove_graph_node(in_graph, obj, out_graph,       pair, pair_a, neighbor_dist, distance, n1, n2, old_distance) {
@@ -372,15 +372,15 @@ function neighbors_by_distance(i1, v1, i2, v2,    a1, a2) {
 
 function optimize(depth, graph, current_object, path, steps, keyset,        prefix, neighbors, n_i, n_obj, n_dist, new_graph, door_opened_graph, neighbor_count, sorted_neighbors, n_a, edgesum, keyset_with_pos) {
   prefix = "["depth"]" substr("                                                                                                                                                                                          ", 1, 1 + depth);
-  if(debug>2) printf "%s entering node '%s'\n", prefix, current_object;
-  if(debug>2) printf "%s input graph has %d edges\n", prefix, length(graph);
+  if(debug>2) printf "%sentering node '%s'\n", prefix, current_object;
+  if(debug>2) printf "%sinput graph has %d edges\n", prefix, length(graph);
 
   if (steps >= g_best_steps) {
     if(debug>2) printf "%saborting, %d steps >= best %d\n", prefix, steps, g_best_steps;
     return;
   }
 
-  path = path current_object;
+  path = path " " current_object;
   if(iskey(current_object)) {
     sub(toupper(current_object), current_object, keyset);
   }
@@ -442,12 +442,6 @@ function optimize(depth, graph, current_object, path, steps, keyset,        pref
   }
 
   if (debug>3) print_graph(door_opened_graph);
-
-#   edgesum = 0;
-#   for(pair in graph) {
-#     edgesum += graph[pair];
-#   }
-#   if(debug>2) printf "%sedge sum is now %d\n", prefix, edgesum;
 
   delete neighbors;
   find_neighbors(door_opened_graph, current_object, neighbors);
