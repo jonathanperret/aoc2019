@@ -32,7 +32,7 @@ function add_intersections(    x, y, n) {
   n = 0;
   for(y=0; y<=g_ymax; y++) {
     for(x=0; x<=g_xmax; x++) {
-      if(cango(x,y) && cango(x+1,y) + cango(x-1,y) + cango(x,y+1) + cango(x,y-1) >= 3) {
+      if(g_space[x,y] == "." && cango(x+1,y) + cango(x-1,y) + cango(x,y+1) + cango(x,y-1) >= 3) {
         if(debug>2) printf "Adding intersection at (%d,%d)\n", x, y;
         g_space[x,y] = "(" n++ ")";
       }
@@ -61,7 +61,7 @@ function iswall(s) {
 }
 
 function isblank(s) {
-  return s == "." || s ~ /^\(/;
+  return s == "." || s ~ /^[(0-9]/;
 }
 
 function create_head(head_pos, head_walked_distance, head_last_object, head_visited,   new_head_i) {
@@ -324,16 +324,15 @@ function neighbors_by_distance(i1, v1, i2, v2,    a1, a2) {
   split(v1, a1, SUBSEP);
   split(v2, a2, SUBSEP);
 
-#   ideal = "afbjgnhdloepcikm";
-# 
-#   if(index(ideal, a1[1]) < index(ideal,a2[1])) {
-#     return -1;
-#   } else if(index(ideal, a1[1]) == index(ideal,a2[1])) {
-#     return 0;
-#   } else {
-#     return 1;
-#   }
-# 
+   ideal = "dyrlfibhpgeoctnsqavwkxzujm";
+
+   if(index(ideal, a1[1]) < index(ideal,a2[1])) {
+     return -1;
+   } else if(index(ideal, a1[1]) == index(ideal,a2[1])) {
+     return 0;
+   } else {
+     return 1;
+   }
 
   if(a1[1] < a2[1]) {
     return -1;
@@ -367,7 +366,7 @@ function optimize(depth, graph, current_object, path, steps, keyset,        pref
 
   keyset_with_pos = keyset "/" current_object;
 
-  if(debug>1) printf "PATH: %-130s KEYSET: %-30s STEPS:%d\n", path, keyset_with_pos, steps;
+  if(debug>0) printf "PATH: %-130s KEYSET: %-30s STEPS:%d\n", path, keyset_with_pos, steps;
 
   if(keyset_with_pos in g_known_keysets) {
     if(steps < g_known_keysets[keyset_with_pos]) {
@@ -420,6 +419,8 @@ function optimize(depth, graph, current_object, path, steps, keyset,        pref
   } else {
     copyarray(graph, door_opened_graph);
   }
+
+  if (debug>3) print_graph(door_opened_graph);
 
 #   edgesum = 0;
 #   for(pair in graph) {
@@ -500,6 +501,21 @@ function remove_useless_nodes(graph,    edgecounts, again, pair, pair_a, obj, tm
   }
 }
 
+function remove_intersections(graph,     pair, pair_a, obj, objects, tmp_graph) {
+  delete objects;
+  for(pair in graph) {
+    split(pair, pair_a, SUBSEP);
+
+    if(isblank(pair_a[1])) { objects[pair_a[1]] = 1; }
+    if(isblank(pair_a[2])) { objects[pair_a[2]] = 1; }
+  }
+  for(obj in objects) {
+    if(debug>1) printf "Removing %s\n", obj;
+    remove_graph_node(graph, obj, tmp_graph);
+    copyarray(tmp_graph, graph);
+  }
+}
+
 END {
   g_ymax = NR - 1;
   add_intersections();
@@ -508,9 +524,10 @@ END {
   # remove_useless_doors();
   build_graph();
   print_graph(g_graph);
-  remove_useless_nodes(g_graph);
+  # remove_useless_nodes(g_graph);
+  remove_intersections(g_graph);
   print_graph(g_graph);
-  g_best_steps = 3452;
+  g_best_steps = 993452;
   g_best_path = "";
   delete g_known_paths;
   delete g_known_keysets;
