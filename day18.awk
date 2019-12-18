@@ -392,10 +392,12 @@ function move_to_object(depth, graph, to_object, path, steps, keyset,        pre
 
   if (debug>3) print_graph(door_opened_graph);
 
-  move_from_object(depth, door_opened_graph, to_object, path, steps, keyset,        prefix);
+  move_from_object(depth, door_opened_graph, to_object, path, steps, keyset);
 }
 
-function move_from_object(depth, graph, from_object, path, steps, keyset, prefix,        n_i, n_obj, n_dist, new_graph, neighbors, neighbor_count, sorted_neighbors, n_a) {
+function move_from_object(depth, graph, from_object, path, steps, keyset,          prefix, n_i, n_obj, n_dist, new_graph, neighbors, neighbor_count, sorted_neighbors, n_a) {
+  prefix = "["depth"]" substr("                                                                                                                                                                                          ", 1, 1 + depth);
+
   delete neighbors;
   find_neighbors(graph, from_object, neighbors);
 
@@ -513,7 +515,7 @@ END {
   g_best_path = "";
   delete g_known_keysets;
   delete g_known_keysets_path;
-  move_to_object(0, g_graph, "@0", "", 0, init_keyset());
+  move_from_object(0, g_graph, "@0", "", 0, init_keyset());
   printf "BEST PATH IS %s IN %d STEPS\n", g_best_path, g_best_steps;
   print "Done.";
   close("/dev/stderr");
