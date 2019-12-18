@@ -165,39 +165,21 @@ function print_space(     x, y, h, heads) {
   }
 }
 
-function scan_maze(     x, y, xya, xy, visited, prev_visited, distance, current_heads, head_i, again, obj) {
+function scan_maze(     x, y, xya, xy, visited, prev_visited, distance, current_heads, head_i, again, obj, i) {
   delete visited;
   delete g_head_pos;
   delete g_head_last_object;
   delete g_head_walked_distance;
   delete g_head_visited;
 
-  g_head_pos[0] = g_start_pos[0];
-  g_head_last_object[0] = "@0";
-  g_head_walked_distance[0] = 0;
-  g_head_visited[0][g_head_pos[0]] = 1;
-
-  g_head_pos[1] = g_start_pos[1];
-  g_head_last_object[1] = "@1";
-  g_head_walked_distance[1] = 0;
-  g_head_visited[1][g_head_pos[1]] = 1;
-
-  g_head_pos[2] = g_start_pos[2];
-  g_head_last_object[2] = "@2";
-  g_head_walked_distance[2] = 0;
-  g_head_visited[2][g_head_pos[2]] = 1;
-
-  g_head_pos[3] = g_start_pos[3];
-  g_head_last_object[3] = "@3";
-  g_head_walked_distance[3] = 0;
-  g_head_visited[3][g_head_pos[3]] = 1;
-
-  g_last_head = 3;
-
-  g_space[g_head_pos[0]] = ".";
-  g_space[g_head_pos[1]] = ".";
-  g_space[g_head_pos[2]] = ".";
-  g_space[g_head_pos[3]] = ".";
+  for(i in g_start_pos) {
+    g_head_pos[i] = g_start_pos[i];
+    g_head_last_object[i] = "@"i;
+    g_head_walked_distance[i] = 0;
+    g_head_visited[i][g_head_pos[i]] = 1;
+    g_space[g_head_pos[i]] = ".";
+  }
+  g_last_head = length(g_start_pos) - 1;
 
   distance = 0;
   again = 1;
@@ -287,31 +269,14 @@ function build_graph(      obj, parent, distance) {
   for(obj in g_object_parent) {
     parent = g_object_parent[obj];
     distance = g_object_parent_distance[obj];
-    # if(parent == "@") continue;
 
     set_graph_distance(g_graph, obj, parent, distance);
   }
-#    set_graph_distance(g_graph, 1, 2, 4);
-#    set_graph_distance(g_graph, 1, 3, 4);
-#    set_graph_distance(g_graph, 1, 4, 6);
-#    set_graph_distance(g_graph, 1, 5, 6);
-#    set_graph_distance(g_graph, 1, 6, 4);
-#    set_graph_distance(g_graph, 1, 7, 2);
-#    set_graph_distance(g_graph, 2, 3, 2);
-#    set_graph_distance(g_graph, 2, 4, 4);
-#    set_graph_distance(g_graph, 2, 5, 4);
-#    set_graph_distance(g_graph, 2, 6, 6);
-#    set_graph_distance(g_graph, 2, 7, 4);
-#    set_graph_distance(g_graph, 3, 4, 4);
-#    set_graph_distance(g_graph, 3, 5, 4);
-#    set_graph_distance(g_graph, 3, 6, 6);
-#    set_graph_distance(g_graph, 3, 7, 4);
-#    set_graph_distance(g_graph, 4, 5, 2);
-#    set_graph_distance(g_graph, 4, 6, 4);
-#    set_graph_distance(g_graph, 4, 7, 6);
-#    set_graph_distance(g_graph, 5, 6, 4);
-#    set_graph_distance(g_graph, 5, 7, 6);
-#    set_graph_distance(g_graph, 6, 7, 4);
+}
+
+function add_center_shortcuts(graph) {
+  set_graph_distance(graph, 1, 4, 2);
+  set_graph_distance(graph, 2, 3, 2);
 }
 
 function print_graph(graph,      obj, pair, pair_a) {
@@ -341,19 +306,18 @@ function find_neighbors(graph, from_object, out_neighbors,    neighbor_count, pa
   }
 }
 
-function neighbors_by_distance(i1, v1, i2, v2,    a1, a2) {
+function neighbors_by_distance(i1, v1, i2, v2,    a1, a2, hint) {
   split(v1, a1, SUBSEP);
   split(v2, a2, SUBSEP);
 
-#    ideal = "dyrlfibhpgeoctnsqavwkxzujm";
-# 
-#    if(index(ideal, a1[1]) < index(ideal,a2[1])) {
-#      return -1;
-#    } else if(index(ideal, a1[1]) == index(ideal,a2[1])) {
-#      return 0;
-#    } else {
-#      return 1;
-#    }
+#  hint = "tgrjdoayukbhcivezwqxfnpsml";
+#  if(index(hint, a1[1]) < index(hint,a2[1])) {
+#    return -1;
+#  } else if(index(hint, a1[1]) == index(hint,a2[1])) {
+#    return 0;
+#  } else {
+#    return 1;
+#  }
 
   if(a1[1] < a2[1]) {
     return -1;
@@ -370,9 +334,9 @@ function neighbors_by_distance(i1, v1, i2, v2,    a1, a2) {
   }
 }
 
-function optimize(depth, graph, current_object, path, steps, keyset,        prefix, neighbors, n_i, n_obj, n_dist, new_graph, door_opened_graph, neighbor_count, sorted_neighbors, n_a, edgesum, keyset_with_pos) {
+function move_to_object(depth, graph, to_object, path, steps, keyset,        prefix, neighbors, n_i, n_obj, n_dist, new_graph, door_opened_graph, neighbor_count, sorted_neighbors, n_a, edgesum, keyset_with_pos) {
   prefix = "["depth"]" substr("                                                                                                                                                                                          ", 1, 1 + depth);
-  if(debug>2) printf "%sentering node '%s'\n", prefix, current_object;
+  if(debug>2) printf "%sentering node '%s'\n", prefix, to_object;
   if(debug>2) printf "%sinput graph has %d edges\n", prefix, length(graph);
 
   if (steps >= g_best_steps) {
@@ -380,14 +344,14 @@ function optimize(depth, graph, current_object, path, steps, keyset,        pref
     return;
   }
 
-  path = path " " current_object;
-  if(iskey(current_object)) {
-    sub(toupper(current_object), current_object, keyset);
+  path = path to_object;
+  if(iskey(to_object)) {
+    sub(toupper(to_object), to_object, keyset);
   }
 
-  keyset_with_pos = keyset "/" current_object;
+  keyset_with_pos = keyset "/" to_object;
 
-  if(debug>0) printf "PATH: %-130s KEYSET: %-30s STEPS:%d\n", path, keyset_with_pos, steps;
+  if(debug>0) printf "PATH: %-30s KEYSET: %-30s STEPS:%d\n", path, keyset_with_pos, steps;
 
   if(keyset_with_pos in g_known_keysets) {
     if(steps < g_known_keysets[keyset_with_pos]) {
@@ -433,9 +397,9 @@ function optimize(depth, graph, current_object, path, steps, keyset,        pref
 
   delete door_opened_graph;
 
-  if(iskey(current_object)) {
-    if(debug>2) printf "%sremoving door for key '%s'\n", prefix, current_object;
-    remove_graph_node(graph, toupper(current_object), door_opened_graph);
+  if(iskey(to_object)) {
+    if(debug>2) printf "%sremoving door for key '%s'\n", prefix, to_object;
+    remove_graph_node(graph, toupper(to_object), door_opened_graph);
     if(debug>2) printf "%sdoor opened graph has %d edges\n", prefix, length(door_opened_graph);
   } else {
     copyarray(graph, door_opened_graph);
@@ -444,16 +408,16 @@ function optimize(depth, graph, current_object, path, steps, keyset,        pref
   if (debug>3) print_graph(door_opened_graph);
 
   delete neighbors;
-  find_neighbors(door_opened_graph, current_object, neighbors);
+  find_neighbors(door_opened_graph, to_object, neighbors);
 
-  if(debug>2) printf "%s removing node '%s' from graph\n", prefix, current_object;
-  remove_graph_node(door_opened_graph, current_object, new_graph);
+  if(debug>2) printf "%s removing node '%s' from graph\n", prefix, to_object;
+  remove_graph_node(door_opened_graph, to_object, new_graph);
   if(debug>2) printf "%s new graph has %d edges\n", prefix, length(new_graph);
 
   neighbor_count = asort(neighbors, sorted_neighbors, "neighbors_by_distance");
 
   if(debug>2) {
-    printf "%s neighbors of %s:", prefix, current_object;
+    printf "%s neighbors of %s:", prefix, to_object;
     for(n_i=1; n_i<=neighbor_count; n_i++) {
       split(sorted_neighbors[n_i], n_a, SUBSEP);
       n_obj = n_a[1];
@@ -474,8 +438,12 @@ function optimize(depth, graph, current_object, path, steps, keyset,        pref
       continue;
     }
 
-    if(depth < 60)
-      optimize(depth + 1, new_graph, n_obj, path, steps + n_dist, keyset);
+    if(depth > 60) {
+      printf "Stack overflow!\n";
+      exit 1;
+    }
+
+    move_to_object(depth + 1, new_graph, n_obj, path, steps + n_dist, keyset);
   }
 
 }
@@ -549,16 +517,17 @@ END {
   build_graph();
   print_graph(g_graph);
   # remove_useless_nodes(g_graph);
+  add_center_shortcuts(g_graph);
   remove_intersections(g_graph);
   print_graph(g_graph);
-  connect_extra_bots(g_graph);
+  # connect_extra_bots(g_graph);
   print_graph(g_graph);
   g_best_steps = 992780;
   g_best_path = "";
   delete g_known_paths;
   delete g_known_keysets;
   delete g_known_keysets_path;
-  optimize(0, g_graph, "@0", "", 0, init_keyset());
+  move_to_object(0, g_graph, "@0", "", 0, init_keyset());
   printf "BEST PATH IS %s IN %d STEPS\n", g_best_path, g_best_steps;
   print "Done.";
   close("/dev/stderr");
