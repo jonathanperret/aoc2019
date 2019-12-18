@@ -334,7 +334,7 @@ function neighbors_by_distance(i1, v1, i2, v2,    a1, a2, hint) {
   }
 }
 
-function move_to_object(depth, graph, to_object, path, steps, keyset,        prefix, door_opened_graph, keyset_with_pos) {
+function move_to_object(depth, graph, to_object, path, steps, keyset,        prefix, door_opened_graph) {
   prefix = "["depth"]" substr("                                                                                                                                                                                          ", 1, 1 + depth);
   if(debug>2) printf "%sentering node '%s'\n", prefix, to_object;
   if(debug>2) printf "%sinput graph has %d edges\n", prefix, length(graph);
@@ -345,27 +345,29 @@ function move_to_object(depth, graph, to_object, path, steps, keyset,        pre
   }
 
   path = path to_object;
+
   if(iskey(to_object)) {
     sub(toupper(to_object), to_object, keyset);
   }
 
-  keyset_with_pos = keyset "/" to_object;
+  sub(/\/.*/, "", keyset);
+  keyset = keyset "/" to_object;
 
-  if(debug>0) printf "PATH: %-30s KEYSET: %-30s STEPS:%d\n", path, keyset_with_pos, steps;
+  if(debug>0) printf "PATH: %-30s KEYSET: %-30s STEPS:%d\n", path, keyset, steps;
 
-  if(keyset_with_pos in g_known_keysets) {
-    if(steps < g_known_keysets[keyset_with_pos]) {
-      if(debug>2) printf "%snew record for keyset %s: %d steps\n", prefix, keyset_with_pos, steps;
-      g_known_keysets[keyset_with_pos] = steps;
-      g_known_keysets_path[keyset_with_pos] = path;
+  if(keyset in g_known_keysets) {
+    if(steps < g_known_keysets[keyset]) {
+      if(debug>2) printf "%snew record for keyset %s: %d steps\n", prefix, keyset, steps;
+      g_known_keysets[keyset] = steps;
+      g_known_keysets_path[keyset] = path;
     } else {
-      if(debug>2) printf "%salready better known for keyset %s: %d <= %d steps (%s)\n", prefix, keyset, g_known_keysets[keyset_with_pos], steps, g_known_keysets_path[keyset_with_pos];
+      if(debug>2) printf "%salready better known for keyset %s: %d <= %d steps (%s)\n", prefix, keyset, g_known_keysets[keyset], steps, g_known_keysets_path[keyset];
       return;
     }
   } else {
-    if(debug>2) printf "%snew keyset %s: %d steps\n", prefix, keyset_with_pos, steps;
-    g_known_keysets[keyset_with_pos] = steps;
-    g_known_keysets_path[keyset_with_pos] = path;
+    if(debug>2) printf "%snew keyset %s: %d steps\n", prefix, keyset, steps;
+    g_known_keysets[keyset] = steps;
+    g_known_keysets_path[keyset] = path;
   }
 
   if(length(path)>0) {
@@ -381,19 +383,17 @@ function move_to_object(depth, graph, to_object, path, steps, keyset,        pre
       if(debug>2) printf "%snew path %s: %d steps\n", prefix, path, steps;
       g_known_paths[path] = steps;
     }
-
-    if(keyset ~ /^[a-z]+$/) {
-      printf "GOT ALL KEYS in %d steps\n", steps;
-      if (steps < g_best_steps) {
-        printf "NEW RECORD %d steps\n", steps;
-        g_best_path = path;
-        g_best_steps = steps;
-      }
-      return;
-    }
   }
 
-  # print_graph(graph);
+  if(keyset ~ /^[a-z]+\//) {
+    printf "GOT ALL KEYS in %d steps\n", steps;
+    if (steps < g_best_steps) {
+      printf "NEW RECORD %d steps\n", steps;
+      g_best_path = path;
+      g_best_steps = steps;
+    }
+    return;
+  }
 
   delete door_opened_graph;
 
