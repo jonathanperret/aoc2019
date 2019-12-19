@@ -334,10 +334,9 @@ function neighbors_by_distance(i1, v1, i2, v2,    a1, a2, hint) {
   }
 }
 
-function move_to_object(depth, graph, to_object, path, steps, keyset,        prefix, door_opened_graph) {
+function move_bot_to_object(depth, graph, bot_pos, bot_i, to_object, path, steps, keyset,        prefix, door_opened_graph, i, new_bot_pos) {
   prefix = "["depth"]" substr("                                                                                                                                                                                          ", 1, 1 + depth);
-  if(debug>2) printf "%sentering node '%s'\n", prefix, to_object;
-  if(debug>2) printf "%sinput graph has %d edges\n", prefix, length(graph);
+  if(debug>2) printf "%sbot %d entering node '%s'\n", prefix, bot_i, to_object;
 
   if (steps >= g_best_steps) {
     if(debug>2) printf "%saborting, %d steps >= best %d\n", prefix, steps, g_best_steps;
@@ -346,12 +345,17 @@ function move_to_object(depth, graph, to_object, path, steps, keyset,        pre
 
   path = path to_object;
 
+  copyarray(bot_pos, new_bot_pos);
+  new_bot_pos[bot_i] = to_object;
+
   if(iskey(to_object)) {
     sub(toupper(to_object), to_object, keyset);
   }
 
   sub(/\/.*/, "", keyset);
-  keyset = keyset "/" to_object;
+  for(i = 0; i < length(new_bot_pos); i++) {
+    keyset = keyset "/" new_bot_pos[i];
+  }
 
   if(debug>0) printf "PATH: %-30s KEYSET: %-30s STEPS:%d\n", path, keyset, steps;
 
@@ -380,8 +384,6 @@ function move_to_object(depth, graph, to_object, path, steps, keyset,        pre
     return;
   }
 
-  delete door_opened_graph;
-
   if(iskey(to_object)) {
     if(debug>2) printf "%sremoving door for key '%s'\n", prefix, to_object;
     remove_graph_node(graph, toupper(to_object), door_opened_graph);
@@ -392,11 +394,15 @@ function move_to_object(depth, graph, to_object, path, steps, keyset,        pre
 
   if (debug>3) print_graph(door_opened_graph);
 
-  move_from_object(depth, door_opened_graph, to_object, path, steps, keyset);
+  move_bots(depth, door_opened_graph, new_bot_pos, path, steps, keyset);
 }
 
-function move_from_object(depth, graph, from_object, path, steps, keyset,          prefix, n_i, n_obj, n_dist, new_graph, neighbors, neighbor_count, sorted_neighbors, n_a) {
+function move_bot_from_object(depth, graph, bot_pos, bot_i, path, steps, keyset,          prefix, from_object, n_i, n_obj, n_dist, new_graph, neighbors, neighbor_count, sorted_neighbors, n_a) {
   prefix = "["depth"]" substr("                                                                                                                                                                                          ", 1, 1 + depth);
+
+  from_object = bot_pos[bot_i];
+
+  if(debug>2) printf "%sbot %d moving from %s\n", prefix, bot_i, from_object;
 
   delete neighbors;
   find_neighbors(graph, from_object, neighbors);
@@ -433,7 +439,7 @@ function move_from_object(depth, graph, from_object, path, steps, keyset,       
       exit 1;
     }
 
-    move_to_object(depth + 1, new_graph, n_obj, path, steps + n_dist, keyset);
+    move_bot_to_object(depth + 1, new_graph, bot_pos, bot_i, n_obj, path, steps + n_dist, keyset);
   }
 }
 
@@ -497,6 +503,26 @@ function connect_extra_bots(graph) {
   set_graph_distance(graph, "@2", "@3", 0);
 }
 
+function move_bots(depth, graph, bot_pos, path, steps, keyset,      i) {
+  for(i = 0; i < length(bot_pos); i++) {
+    move_bot_from_object(depth, graph, bot_pos, i, path, steps, keyset);
+  }
+}
+
+function solve(    bot_pos) {
+  g_best_steps = 992780;
+  g_best_path = "";
+  delete g_known_keysets;
+  delete g_known_keysets_path;
+  delete bot_pos;
+
+  for(i in g_start_pos) {
+    bot_pos[i] = "@"i;
+  }
+  move_bots(0, g_graph, bot_pos, "", 0, init_keyset());
+  printf "BEST PATH IS %s IN %d STEPS\n", g_best_path, g_best_steps;
+}
+
 END {
   g_ymax = NR - 1;
   add_intersections();
@@ -506,17 +532,12 @@ END {
   build_graph();
   print_graph(g_graph);
   # remove_useless_nodes(g_graph);
-  add_center_shortcuts(g_graph);
+  # add_center_shortcuts(g_graph);
   remove_intersections(g_graph);
   print_graph(g_graph);
   # connect_extra_bots(g_graph);
   print_graph(g_graph);
-  g_best_steps = 992780;
-  g_best_path = "";
-  delete g_known_keysets;
-  delete g_known_keysets_path;
-  move_from_object(0, g_graph, "@0", "", 0, init_keyset());
-  printf "BEST PATH IS %s IN %d STEPS\n", g_best_path, g_best_steps;
+  solve();
   print "Done.";
   close("/dev/stderr");
   if(0) {
