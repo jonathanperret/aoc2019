@@ -11,9 +11,7 @@ BEGIN {
   g_ymin = 0;
   g_ymax = 0;
   delete g_start_pos;
-  g_last_head = 0;
   printf "" >> "/dev/stderr";
-  delete g_head_pos;
 }
 
 function parse(      x, y) {
@@ -28,20 +26,8 @@ function parse(      x, y) {
   }
 }
 
-function add_intersections(    x, y, n) {
-  n = 0;
-  for(y=0; y<=g_ymax; y++) {
-    for(x=0; x<=g_xmax; x++) {
-      if(g_space[x,y] == "." && cango(x+1,y) + cango(x-1,y) + cango(x,y+1) + cango(x,y-1) >= 3) {
-        if(debug>2) printf "Adding intersection at (%d,%d)\n", x, y;
-        g_space[x,y] = "(" n++ ")";
-      }
-    }
-  }
-}
-
-function cango(x, y) {
-  return ((x,y) in g_space) && !iswall(g_space[x,y]) && !isdoor(g_space[x,y]);
+function iswalkable(x, y) {
+  return ((x,y) in g_space) && !iswall(g_space[x,y]);
 }
 
 {
@@ -61,162 +47,39 @@ function iswall(s) {
 }
 
 function isblank(s) {
-  return s == "." || s ~ /^[(0-9]/;
+  return s == "." || s ~ /^[(0-9*]/;
 }
 
-function create_head(head_pos, head_walked_distance, head_last_object, head_visited,   new_head_i) {
-  new_head_i = ++g_last_head;
-  g_head_pos[new_head_i] = head_pos;
-  g_head_last_object[new_head_i] = head_last_object;
-  g_head_walked_distance[new_head_i] = head_walked_distance;
-  g_head_visited[new_head_i]["dummy"] = 1;
-  copyarray(head_visited, g_head_visited[new_head_i]);
-  return new_head_i;
-}
-
-function advance_head_to(head_i, head_pos, head_walked_distance, head_last_object, head_visited, again, x, y      , last_object) {
-  # if(debug>2) printf "Head %d trying to go to %d, %d\n", head_i, x, y;
-  if(x < g_xmin || x >= g_xmax || y < g_ymin || y >= g_ymax) {
-    # if(debug>2) printf "(%d, %d) is out of range\n", x, y;
-    return 0;
-  }
-  if((x, y) in head_visited) {
-    # if(debug>2) printf "(%d, %d) is already visited\n", x, y;
-    return 0;
-  }
-  tile = g_space[x, y];
-  if(iswall(tile)) {
-    # if(debug>2) printf "(%d, %d) is wall\n", x, y;
-    head_visited[x, y] = -1;
-    return 0;
-  }
-  if(again) {
-    if(debug>2) printf "Advancing head %d (%d, %d) in multiple directions!\n", head_i, x, y;
-    head_i = create_head(head_pos, head_walked_distance, head_last_object, head_visited);
-    if(debug>2) printf "Created new head %d\n", head_i;
-  }
-  if(tile == ".") {
-    if(debug>2) printf "Head %d entering free space (%d, %d)\n", head_i, x, y;
-    g_head_walked_distance[head_i] = head_walked_distance + 1;
-  } else {
-    if(debug>2) printf "Head %d found object '%s' at (%d, %d) after %d steps\n", head_i, tile, x, y, head_walked_distance + 1;
-    if(tile in g_object_parent) {
-      if(g_object_parent[tile] != head_last_object) {
-        printf "%s has multiple parents! %s != %s\n", tile, head_last_object, g_object_parent[tile];
-        exit 1;
-      }
-      if(g_object_parent_distance[tile] != head_walked_distance + 1) {
-        printf "%s has multiple distances! %s != %s\n", tile, head_walked_distance + 1, g_object_parent_distance[tile];
-        exit 1;
-      }
-    } else {
-      g_object_parent[tile] = head_last_object;
-      g_object_parent_distance[tile] = head_walked_distance + 1;
-    }
-
-    g_head_last_object[head_i] = tile;
-    g_head_walked_distance[head_i] = 0;
-  }
-  g_head_pos[head_i] = x SUBSEP y;
-  g_head_visited[head_i][x, y] = 1;
-  return 1;
-}
-
-function advance_head(head_i,      xya, xy, x, y, again, head_pos, head_walked_distance, head_last_object, head_visited) {
-  xya = g_head_pos[head_i];
-  split(xya, xy, SUBSEP);
-  x = xy[1]; y = xy[2];
-
-  # if(debug>2) printf "Trying to advance head %d from %d, %d\n", head_i, x, y;
-
-  head_pos = g_head_pos[head_i];
-  head_walked_distance = g_head_walked_distance[head_i];
-  head_last_object = g_head_last_object[head_i];
-  copyarray(g_head_visited[head_i], head_visited);
-
-  again = 0;
-  again += advance_head_to(head_i, head_pos, head_walked_distance, head_last_object, head_visited, again, x+1, y);
-  again += advance_head_to(head_i, head_pos, head_walked_distance, head_last_object, head_visited, again, x-1, y);
-  again += advance_head_to(head_i, head_pos, head_walked_distance, head_last_object, head_visited, again, x, y+1);
-  again += advance_head_to(head_i, head_pos, head_walked_distance, head_last_object, head_visited, again, x, y-1);
-
-  if(debug>2) printf "Did head %d advance ? %d\n", head_i, again;
-  if(!again) {
-    if(debug>2) printf "Killing head %d\n", head_i;
-    delete g_head_pos[head_i];
-  }
-
-  return again;
-}
-
-function print_space(     x, y, h, heads) {
+function print_space(     x, y, h) {
   print "SPACE:";
-  for(h in g_head_pos) {
-    heads[g_head_pos[h]] = h;
-  }
   for(y=0; y<=g_ymax; y++) {
     for(x=0; x<=g_xmax; x++) {
-      if((x,y) in heads)
-        printf "%d", heads[x,y] % 10;
-      else
-        printf "%s", substr(g_space[x,y], 1, 1);
+      printf "%s", substr(g_space[x,y], 1, 1);
     }
     printf "\n";
   }
 }
 
-function scan_maze(     x, y, xya, xy, visited, prev_visited, distance, current_heads, head_i, again, obj, i) {
-  delete visited;
-  delete g_head_pos;
-  delete g_head_last_object;
-  delete g_head_walked_distance;
-  delete g_head_visited;
-
-  for(i in g_start_pos) {
-    g_head_pos[i] = g_start_pos[i];
-    g_head_last_object[i] = "@"i;
-    g_head_walked_distance[i] = 0;
-    g_head_visited[i][g_head_pos[i]] = 1;
-    g_space[g_head_pos[i]] = ".";
-  }
-  g_last_head = length(g_start_pos) - 1;
-
-  distance = 0;
-  again = 1;
-  while(again) {
-    if(debug>3) print_space();
-    again = 0;
-    copyarray(g_head_pos, current_heads);
-    for(head_i in current_heads) {
-      again += advance_head(head_i);
-    }
-
-    if(debug>2) printf "Got %d heads at distance %d\n", length(g_head_pos), distance;
-    distance++;
-  };
-  if(debug>2) printf "Found %d objects\n", length(g_object_parent);
+function make_obj(x, y) {
+  return g_space[x, y] == "." ? "*" x "_" y : g_space[x, y];
 }
 
-function remove_useless_doors(    parents, leaves, obj, again) {
-  again = 1;
-  while(again) {
-    again = 0;
-    delete parents;
-    delete leaves;
-    for(obj in g_object_parent) {
-      parents[g_object_parent[obj]] = 1;
-    }
-    for(obj in g_object_parent) {
-      if(!(obj in parents)) {
-        leaves[obj] = 1;
-      }
-    }
-    if(debug>2) printf "Found %d leaves\n", length(leaves);
-    for(obj in leaves) {
-      if(isdoor(obj) || obj ~ /[0-9]/) {
-        if(debug>2) printf "Removing useless door %s\n", obj;
-        delete g_object_parent[obj];
-        again++;
+function mark_starts(    i) {
+  for(i in g_start_pos) {
+    g_space[g_start_pos[i]] = "@"i;
+  }
+}
+
+function scan_maze(     x, y, nx, ny, obj) {
+  for(y=0; y<=g_ymax; y++) {
+    for(x=0; x<=g_xmax; x++) {
+      if(iswalkable(x, y)) {
+        printf "Creating edges from (%d,%d)\n", x, y;
+        obj = make_obj(x, y);
+        nx = x+1; ny = y  ; if(iswalkable(nx, ny)) set_graph_distance(g_graph, obj, make_obj(nx, ny), 1);
+        nx = x-1; ny = y  ; if(iswalkable(nx, ny)) set_graph_distance(g_graph, obj, make_obj(nx, ny), 1);
+        nx = x  ; ny = y+1; if(iswalkable(nx, ny)) set_graph_distance(g_graph, obj, make_obj(nx, ny), 1);
+        nx = x  ; ny = y-1; if(iswalkable(nx, ny)) set_graph_distance(g_graph, obj, make_obj(nx, ny), 1);
       }
     }
   }
@@ -265,18 +128,46 @@ function remove_graph_node(in_graph, obj, out_graph,       pair, pair_a, neighbo
   }
 }
 
-function build_graph(      obj, parent, distance) {
-  for(obj in g_object_parent) {
-    parent = g_object_parent[obj];
-    distance = g_object_parent_distance[obj];
-
-    set_graph_distance(g_graph, obj, parent, distance);
+function remove_graph_node_inplace(graph, obj,         pair, pair_a, neighbor_dist, distance, n1, n2, old_distance, edgestoremove) {
+  delete neighbor_dist;
+  delete edgestoremove;
+  for(pair in graph) {
+    split(pair, pair_a, SUBSEP);
+    distance = graph[pair];
+    if (pair_a[1] == obj) {
+      # if(debug>2) printf "removing edge to %s\n", pair_a[2];
+      neighbor_dist[pair_a[2]] = distance;
+    } else if (pair_a[2] == obj) {
+      # if(debug>2) printf "removing edge to %s\n", pair_a[1];
+      neighbor_dist[pair_a[1]] = distance;
+    } else {
+      # if(debug>2) printf "keeping edge %s\n", pair;
+      continue;
+    }
+    edgestoremove[pair] = 1;
   }
-}
-
-function add_center_shortcuts(graph) {
-  set_graph_distance(graph, 1, 4, 2);
-  set_graph_distance(graph, 2, 3, 2);
+  for(pair in edgestoremove) {
+    delete graph[pair];
+  }
+  for(n1 in neighbor_dist) {
+    for(n2 in neighbor_dist) {
+      if(n1 < n2) {
+        distance = neighbor_dist[n1] + neighbor_dist[n2];
+        if ((n1, n2) in graph) {
+          old_distance = graph[n1, n2];
+          if(distance < old_distance) {
+            # if(debug>2) printf "replacing edge %s = %d < %d\n", n1 SUBSEP n2, distance, old_distance;
+            graph[n1, n2] = distance;
+          } else {
+            # if(debug>2) printf "edge %s already exists with distance %d <= %d\n", n1 SUBSEP n2, old_distance, distance;
+          }
+        } else {
+          # if(debug>2) printf "adding edge %s = %d\n", n1 SUBSEP n2, distance;
+          graph[n1, n2] = distance;
+        }
+      }
+    }
+  }
 }
 
 function print_graph(graph,      obj, pair, pair_a) {
@@ -287,6 +178,7 @@ function print_graph(graph,      obj, pair, pair_a) {
     printf "  \"%s\" -- \"%s\" [ label = \"%d\" ];\n", pair_a[1], pair_a[2], graph[pair];
   }
   printf "}\n";
+  fflush();
 }
 
 function find_neighbors(graph, from_object, out_neighbors,    neighbor_count, pair, pair_a, n_obj) {
@@ -344,6 +236,7 @@ function move_bot_to_object(depth, graph, bot_pos, bot_i, to_object, path, steps
   }
 
   path = path to_object;
+  g_tested_path_count++;
 
   copyarray(bot_pos, new_bot_pos);
   new_bot_pos[bot_i] = to_object;
@@ -375,7 +268,6 @@ function move_bot_to_object(depth, graph, bot_pos, bot_i, to_object, path, steps
   }
 
   if(keyset ~ /^[a-z]+\//) {
-    printf "GOT ALL KEYS in %d steps\n", steps;
     if (steps < g_best_steps) {
       printf "NEW RECORD %d steps\n", steps;
       g_best_path = path;
@@ -457,29 +349,7 @@ function init_keyset(      keyset_a, keyset, i, n, pair) {
   return keyset;
 }
 
-function remove_useless_nodes(graph,    edgecounts, again, pair, pair_a, obj, tmp_graph) {
-  again = 1;
-  while(again) {
-    again = 0;
-    delete edgecounts;
-    for(pair in graph) {
-      split(pair, pair_a, SUBSEP);
-
-      if(isblank(pair_a[1])) { if (pair_a[1] in edgecounts) edgecounts[pair_a[1]]++; else edgecounts[pair_a[1]] = 1; }
-      if(isblank(pair_a[2])) { if (pair_a[2] in edgecounts) edgecounts[pair_a[2]]++; else edgecounts[pair_a[2]] = 1; }
-    }
-    for(obj in edgecounts) {
-      if(edgecounts[obj] == 2) {
-        if(debug>1) printf "Need to remove %s\n", obj;
-        again = 1;
-        remove_graph_node(graph, obj, tmp_graph);
-        copyarray(tmp_graph, graph);
-      }
-    }
-  }
-}
-
-function remove_intersections(graph,     pair, pair_a, obj, objects, tmp_graph) {
+function remove_useless_nodes(graph,     pair, pair_a, obj, objects) {
   delete objects;
   for(pair in graph) {
     split(pair, pair_a, SUBSEP);
@@ -489,18 +359,30 @@ function remove_intersections(graph,     pair, pair_a, obj, objects, tmp_graph) 
   }
   for(obj in objects) {
     if(debug>1) printf "Removing %s\n", obj;
-    remove_graph_node(graph, obj, tmp_graph);
-    copyarray(tmp_graph, graph);
+    remove_graph_node_inplace(graph, obj);
   }
 }
 
-function connect_extra_bots(graph) {
-  set_graph_distance(graph, "@0", "@1", 0);
-  set_graph_distance(graph, "@0", "@2", 0);
-  set_graph_distance(graph, "@0", "@3", 0);
-  set_graph_distance(graph, "@1", "@2", 0);
-  set_graph_distance(graph, "@1", "@3", 0);
-  set_graph_distance(graph, "@2", "@3", 0);
+function remove_useless_doors(graph,      pair, pair_a, edgecounts, again, obj, tmp_graph) {
+  again = 1;
+  while(again) {
+    again = 0;
+    delete edgecounts;
+    for(pair in graph) {
+      split(pair, pair_a, SUBSEP);
+
+      if(isdoor(pair_a[1])) { if (pair_a[1] in edgecounts) edgecounts[pair_a[1]]++; else edgecounts[pair_a[1]] = 1; }
+      if(isdoor(pair_a[2])) { if (pair_a[2] in edgecounts) edgecounts[pair_a[2]]++; else edgecounts[pair_a[2]] = 1; }
+    }
+    for(obj in edgecounts) {
+      if(edgecounts[obj] == 1) {
+        if(debug>1) printf "Removing door %s\n", obj;
+        again = 1;
+        remove_graph_node(graph, obj, tmp_graph);
+        copyarray(tmp_graph, graph);
+      }
+    }
+  }
 }
 
 function move_bots(depth, graph, bot_pos, path, steps, keyset,      i) {
@@ -509,8 +391,9 @@ function move_bots(depth, graph, bot_pos, path, steps, keyset,      i) {
   }
 }
 
-function solve(    bot_pos) {
-  g_best_steps = 992780;
+function solve(    bot_pos, i) {
+  g_tested_path_count = 0;
+  g_best_steps = 999999;
   g_best_path = "";
   delete g_known_keysets;
   delete g_known_keysets_path;
@@ -520,30 +403,24 @@ function solve(    bot_pos) {
     bot_pos[i] = "@"i;
   }
   move_bots(0, g_graph, bot_pos, "", 0, init_keyset());
-  printf "BEST PATH IS %s IN %d STEPS\n", g_best_path, g_best_steps;
+  printf "BEST PATH IS %s IN %d STEPS (tested %d paths)\n", g_best_path, g_best_steps, g_tested_path_count;
 }
 
 END {
   g_ymax = NR - 1;
-  add_intersections();
-  print_space();
+  if (debug>1) print_space();
+  mark_starts();
   scan_maze();
-  remove_useless_doors();
-  build_graph();
-  print_graph(g_graph);
-  # remove_useless_nodes(g_graph);
-  # add_center_shortcuts(g_graph);
-  remove_intersections(g_graph);
-  print_graph(g_graph);
-  # connect_extra_bots(g_graph);
-  print_graph(g_graph);
+  if (debug>1) print_graph(g_graph);
+  remove_useless_nodes(g_graph);
+  if (debug>1) print_graph(g_graph);
+  remove_useless_doors(g_graph);
+  if (debug>1) print_graph(g_graph);
   solve();
   print "Done.";
   close("/dev/stderr");
   if(0) {
     print_space();
     neighbors_by_distance();
-    remove_useless_nodes();
-    connect_extra_bots();
   }
 }
