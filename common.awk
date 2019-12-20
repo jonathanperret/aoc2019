@@ -79,4 +79,5 @@ function dumpmatrix(matrix, xmin, xmax, ymin, ymax,     px, py) {
   showcursor();
   hidecursor();
   dumpmatrix();
+  savearray();
 }
