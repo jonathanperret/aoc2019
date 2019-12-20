@@ -35,7 +35,7 @@ function expand(in_graph, out_graph,      objects, obj, pair, pair_a, src_obj, d
         remove_graph_node_inplace_tracing(out_graph, src_obj);
 
         component_count = count_graph_components(out_graph);
-        printf "Graph now has %d components\n", component_count >> "/dev/stderr";
+        printf "Graph now has %d edges in %d components\n", length(out_graph), component_count >> "/dev/stderr";
         if(component_count == 1) {
           printf "Stopping expansion at level %d\n", level >> "/dev/stderr";
           return;
@@ -79,12 +79,12 @@ function remove_graph_node_inplace_tracing(graph, obj,         pair, pair_a, nei
           distance = neighbor_dist[n1] + neighbor_dist[n2];
           if ((n1,n2) in graph) {
             if(distance < graph[n1,n2]) {
-              g_shortcuts[n1,n2] = get_shortcut(n1,obj) "," obj "," get_shortcut(obj,n2);
+              g_shortcuts[n1,n2] = get_shortcut(n1,obj) "(" neighbor_dist[n1] ")" obj "(" neighbor_dist[n2] ")" get_shortcut(obj,n2);
             } else {
               # printf "An edge exists between %s and %s with distance %d <= %d\n", n1, n2, graph[n1,n2], distance >> "/dev/stderr";
             }
           } else {
-            g_shortcuts[n1,n2] = get_shortcut(n1,obj) "(" neighbor_dist[n1] ")" obj "(" neighbor_dist[n2] ")"  get_shortcut(obj,n2);
+            g_shortcuts[n1,n2] = get_shortcut(n1,obj) "(" neighbor_dist[n1] ")" obj "(" neighbor_dist[n2] ")" get_shortcut(obj,n2);
           }
           set_graph_distance(graph, n1, n2, distance);
         }
