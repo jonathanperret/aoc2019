@@ -1,0 +1,16 @@
+@####? nop 
+@#.##? jump
+@#..#? jump
+@.###? jump
+@.#.#? jump
+@..##? jump
+@...#? jump
+@###.? nop 
+@##.#? jump
+@##..? nop 
+@#.#.? nop 
+@#...? nop 
+@.##.? dead
+@.#..? dead
+@..#.? dead
+@....? dead
