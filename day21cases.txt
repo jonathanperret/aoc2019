@@ -1,16 +1,79 @@
-@####? nop 
-@#.##? jump
-@#..#? jump
-@.###? jump
-@.#.#? jump
-@..##? jump
-@...#? jump
-@###.? nop 
-@##.#? jump
-@##..? nop 
-@#.#.? nop 
-@#...? nop 
-@.##.? dead
-@.#..? dead
-@..#.? dead
-@....? dead
+@.?? ?????? jump!
+
+@?.? ?.???? jump! [ n -> dead (.??.) ] ]
+
+@??? ?.??.? nop!  [ j -> dead (.??.) ]
+
+@??. ?..??? jump! [ n -> n (???.) -> dead (.??.) ]
+
+@??. ??.??. j [ n -> j (?.??. ?.) -> dead (.??.) ]
+
+@??. ???.?. j [ n -> (?.???.?.)
+
+NOT (C && (A && (B || E)))
+! a || (! b && ! e) || ! c
+
+
+NOT C || (NOT A || (NOT B && (NOT E)))
+! a || (! b && ! e) || ! c
+
+
+NOT (C || E) || (NOT A || (NOT B && (NOT E)))
+
+(NOT A || (NOT B && (NOT E))) || (NOT C && NOT E && NOT F)
+! a || (! b && ! e) || (! c && ! e && ! f)
+
+(NOT A || (NOT B && (NOT E))) || (NOT C && NOT E && NOT F)
+(NOT A || NOT (B || E)) || (NOT C && NOT E && NOT F)
+NOT (A && (B || E)) || (NOT C && NOT E && NOT F)
+NOT (A && (B || E)) || (NOT C && (NOT E && NOT F))
+NOT (A && (B || E)) || (NOT C && NOT (E || F))
+NOT (A && (B || E)) || NOT (C || (E || F))
+NOT (A && (B || E)) || NOT (C || (E || F))
+NOT ((A && (B || E)) && (C || (E || F)))
+
+! a || (! b && ! e) || (! c && ! e && ! f)
+
+! a || (! b && ! e) || (! c && ! e && ! f) || (! c && ! f && ! g && ! i)
+! a || (! b && ! e) || (! c && ! e && ! f) || (! c && ! f && ! g && ! i)
+
+WALK: J = D AND NOT (A AND B AND C)
+
+L(a…) = W(a…) OR (d AND L(e))
+L(1…) = 1
+L(0…) = 0
+
+W(a…) = (a AND L(b…))
+
+W(A,B,C,D) = A AND L(B,C,D,0)
+W(A,B,C,D) = A AND (W(B…) OR (0 AND L(0…)))
+W(A,B,C,D) = A AND (W(B…) OR (0))
+W(A,B,C,D) = A AND W(B…)
+W(A,B,C,D) = A AND (B AND L(C…)))
+W(A,B,C,D) = A AND (B AND (W(C…) OR (0 AND L(0)))))
+
+(a AND b AND c) OR (a AND b AND f) OR (a AND c AND e) OR (a AND e AND f) OR (a AND e AND i)
+
+
+NOT a OR (NOT b AND NOT e) OR (NOT c AND NOT e AND NOT f) OR (NOT c AND NOT f AND NOT i)
+
+NOT a OR (NOT b AND NOT e) OR (NOT c AND NOT e AND NOT f) OR (NOT c AND NOT f AND NOT i)
+NOT a OR (NOT b AND NOT e) OR (NOT c AND NOT e AND NOT f) OR ((NOT c AND NOT f) AND NOT i)
+NOT a OR (NOT b AND NOT e) OR (NOT c AND NOT e AND NOT f) OR (NOT (c OR f) AND NOT i)
+NOT a OR (NOT b AND NOT e) OR (NOT c AND NOT e AND NOT f) OR NOT (c OR f OR i)
+NOT a OR (NOT b AND NOT e) OR NOT (c OR f OR e) OR NOT (c OR f OR i)
+
+NOT a OR (NOT b AND NOT e) OR (NOT (c OR f OR e) OR NOT (c OR f OR i))
+
+NOT a OR (NOT b AND NOT e) OR NOT ((c OR f OR e) AND (c OR f OR i))
+
+NOT a OR (NOT b AND NOT e) OR NOT (((c OR f) OR e) AND ((c OR f) OR i))
+
+NOT a OR (NOT b AND NOT e) OR NOT ((c OR f) OR (e AND i))
+
+(NOT b AND NOT e) OR   NOT a OR NOT ((c OR f) OR (e AND i))
+NOT (b OR e)      OR   NOT a OR NOT ((c OR f) OR (e AND i))
+
+NOT (b OR e)      OR   NOT a OR NOT (c OR f OR (e AND i))
+
+

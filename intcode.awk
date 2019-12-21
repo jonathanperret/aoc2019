@@ -66,10 +66,12 @@ BEGIN {
   OFS = ",";
   pc = 0;
   relbase = 0;
+  steps = 0;
   if(!CODE) CODE=ENVIRON["CODE"];
   getline < CODE;
   close(CODE);
   while(1) {
+    steps++;
     if(debug>2) print $0 >> "/dev/stderr";
     instr = get(pc);
     opcode = instr % 100;
@@ -82,12 +84,12 @@ BEGIN {
       pmodes[p] = pmode % 10;
       pmode = int(pmode / 10);
     }
-    if(debug > 0) {
+    if(debug > 1) {
       printf "pc=%d relbase=%d instr=%d opcode=%d pmodes=%d,%d,%d params=%d,%d,%d\n", pc, relbase, instr, opcode, pmodes[0], pmodes[1], pmodes[2], get(pc+1,1), get(pc+2,1), get(pc+3,1) >> "/dev/stderr";
     }
     if(opcode == 99) {
       if(debug)
-        printf "HALTING\n" >> "/dev/stderr";
+        printf "HALTING after %d steps\n", steps >> "/dev/stderr";
       break;
     } else if (opcode == 1) {
       setp(2, getp(0) + getp(1));
