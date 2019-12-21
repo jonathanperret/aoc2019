@@ -1,14 +1,18 @@
-@.?? ?????? jump!
+@.???????? jump!
+    ^
+@?.??.???? jump! [ n -> dead (.??.) ] ]
+    ^
+@??.?..??? jump! [ n -> n (???.) -> dead (.??.) ]
+    ^
+@??.??.??. j [ n -> j (?.??. ?.) -> dead (.??.) ]
+    ^
+@??.???.?. j [ n -> (?.???.?.)
+    ^   ^               ^
 
-@?.? ?.???? jump! [ n -> dead (.??.) ] ]
+ ??.?.?... n
+    ^
 
-@??? ?.??.? nop!  [ j -> dead (.??.) ]
-
-@??. ?..??? jump! [ n -> n (???.) -> dead (.??.) ]
-
-@??. ??.??. j [ n -> j (?.??. ?.) -> dead (.??.) ]
-
-@??. ???.?. j [ n -> (?.???.?.)
+NOT C AND NOT E AND NOT G AND NOT H AND NOT I
 
 NOT (C && (A && (B || E)))
 ! a || (! b && ! e) || ! c
@@ -75,5 +79,55 @@ NOT a OR (NOT b AND NOT e) OR NOT ((c OR f) OR (e AND i))
 NOT (b OR e)      OR   NOT a OR NOT ((c OR f) OR (e AND i))
 
 NOT (b OR e)      OR   NOT a OR NOT (c OR f OR (e AND i))
+
+
+NOT a OR (NOT b AND NOT e) OR (NOT c AND NOT e AND NOT f) OR (NOT c AND NOT f AND NOT i) OR (NOT c AND NOT g AND NOT i)
+NOT (b OR e)      OR   NOT a OR (NOT c AND NOT e AND NOT f) OR (NOT c AND NOT f AND NOT i) OR (NOT c AND NOT g AND NOT i)
+NOT (b OR e)      OR   NOT a OR (NOT c AND (NOT e AND NOT f)) OR (NOT c AND (NOT f AND NOT i)) OR (NOT c AND (NOT g AND NOT i))
+NOT (b OR e)      OR   NOT a OR (NOT c AND ((NOT e AND NOT f) OR (NOT f AND NOT i) OR (NOT g AND NOT i)))
+NOT (b OR e)      OR   NOT a OR (NOT c AND (((NOT f AND NOT e) OR (NOT f AND NOT i)) OR (NOT g AND NOT i)))
+NOT (b OR e)      OR   NOT a OR (NOT c AND ((NOT f AND (NOT e OR NOT i)) OR (NOT g AND NOT i)))
+NOT (b OR e)      OR   NOT a OR (NOT c AND ((NOT g AND NOT i) OR (NOT f AND (NOT e OR NOT i)) ))
+NOT (b OR e)      OR   NOT a OR (NOT c AND ((NOT g AND NOT i) OR (NOT f AND NOT (e AND i))))
+NOT (b OR e)      OR   NOT a OR (NOT c AND (NOT (g OR i) OR (NOT f AND NOT (e AND i))))
+NOT (b OR e)      OR   NOT a OR (NOT c AND (NOT (g OR i) OR NOT (f OR (e AND i))))
+NOT (b OR e)      OR   NOT a OR (NOT c AND NOT ((g OR i) AND (f OR (e AND i))))
+NOT (b OR e)      OR   NOT a OR NOT (c OR ((g OR i) AND (f OR (e AND i))))
+
+b'dh + b'de' + c'df'h
+
+
+
+NOT a OR (NOT b AND d AND NOT e) OR (NOT b AND d AND h) OR (NOT c AND d AND NOT f AND h)
+X NOT a OR (NOT b AND d AND NOT e) OR (NOT b AND d AND h) OR (NOT c AND NOT f AND h)
+
+not a or (not b and d and h) or (not b and d and not e) or (not c and d and not f and h)
+not a or (d and not b and h) or (d and not b and not e) or (d and not c and not f and h)
+not a or (d and (not b and h)) or (d and (not b and not e)) or (d and (not c and not f and h))
+√ not a or (d and ((not b and h) or (not b and not e) or (not c and not f and h)))
+
+not a or (d and (((not b and h) or (not b and not e)) or (not c and not f and h)))
+not a or (d and ((not b and (h or not e)) or (not c and not f and h)))
+
+not a or (d and ((not b and (h or not e)) or (not c and h and not f)))
+
+not a or (d and (not (b or (not h and e)) or not (c or f or not h)))
+not a or (d and not ((b or (not h and e)) and (c or f or not h)))
+√ not a or (d and not ((b or (e and not h)) and (c or f or not h)))
+
+------
+
+cdef'gi' + cdegh + cdefg'i' + cdefh + bf + bei + beh + beg + bdh + bdg
+cde!fg!i + cdegh + cdef!g!i + cdefh + bf + bei + beh + beg + bdh + bdg
+cde(!fg!i + gh + f!g!i + fh) + b(f + e(i + h + g) + d(h + g))
+cde(!fg!i + gh + f!g!i + fh) + b(f + e(i + h + g) + d(h + g))
+
+
+
+-------
+v = (!b && d) || (d && h) || (d && e);
+v = d && (!b || h || e);
+
+
 
 

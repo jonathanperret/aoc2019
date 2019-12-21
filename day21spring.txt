@@ -1,15 +1,20 @@
-OR I T
-AND E T
-OR F T
+if(hole in a) jump();
+if(floor in d && hole in b or c && not(hole in e and hole in h)) jump();
+
+!a + d (!b + !c) !(!e !h)
+!a + d !(bc) (e+h)
+
+OR H J
+OR E J
+
 OR C T
-NOT T J
+AND B T
+NOT T T
+
+AND T J
+AND D J
 
 NOT A T
 OR T J
 
-AND A T
-OR E T
-OR B T
-NOT T T
-OR T J
 RUN

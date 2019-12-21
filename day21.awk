@@ -37,8 +37,13 @@ function process(input,    out, i) {
   print out;
 }
 
-/^[A-Z]/ {
+/RUN|WALK/ {
   g_input = g_input $0 "\n";
+  next;
+}
+
+/^[A-Z]/ {
+  g_input = g_input $1 " " $2 " " $3 "\n";
 }
 
 END {
