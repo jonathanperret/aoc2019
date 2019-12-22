@@ -22,16 +22,21 @@ function show() {
   g_watchedcard = 0 + $3;
 }
 
+function normalize(pos) {
+  return (pos + g_decksize) % g_decksize;
+}
+
 /deal into new stack/ {
-  g_watchedcard = (g_decksize - 1 - g_watchedcard) % g_decksize;
+  g_watchedcard = normalize(g_watchedcard * -1);
+  g_watchedcard = normalize(g_watchedcard - 1);
 }
 
 /deal with increment [0-9]+/ {
-  g_watchedcard = (g_watchedcard * $4) % g_decksize;
+  g_watchedcard = normalize(g_watchedcard * $4);
 }
 
 /cut [0-9-]+/ {
-  g_watchedcard = (g_decksize + g_watchedcard - $2) % g_decksize;
+  g_watchedcard = normalize(g_watchedcard - $2);
 }
 
 {
