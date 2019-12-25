@@ -1,10 +1,14 @@
-#! /usr/local/Cellar/gawk/5.0.1/libexec/gnubin/awk --lint=invalid --bignum -f
+#! /usr/bin/env LANG=C gawk --lint=no-ext -f
 
-function get(addr, quiet) {
-  if(debug >= 2 && !quiet)
-    printf "GET: [%d]: %d\n", addr, $(1 + addr) >> "/dev/stderr";
+function _get(addr) {
   if(addr >= NF) return 0;
   return int($(1 + addr));
+}
+
+function get(addr) {
+  if(debug >= 2)
+    printf "GET: [%d]: %d\n", addr, $(1 + addr) >> "/dev/stderr";
+  return _get(addr);
 }
 
 function set(addr, val) {
@@ -85,7 +89,7 @@ BEGIN {
       pmode = int(pmode / 10);
     }
     if(debug > 1) {
-      printf "pc=%d relbase=%d instr=%d opcode=%d pmodes=%d,%d,%d params=%d,%d,%d\n", pc, relbase, instr, opcode, pmodes[0], pmodes[1], pmodes[2], get(pc+1,1), get(pc+2,1), get(pc+3,1) >> "/dev/stderr";
+      printf "pc=%d relbase=%d instr=%d opcode=%d pmodes=%d,%d,%d params=%d,%d,%d\n", pc, relbase, instr, opcode, pmodes[0], pmodes[1], pmodes[2], _get(pc+1), _get(pc+2), _get(pc+3) >> "/dev/stderr";
     }
     if(opcode == 99) {
       if(debug)
