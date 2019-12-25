@@ -1,0 +1,72 @@
+# Hull Breach
+south
+# Hallway
+# take escape pod
+south
+# Stables
+# take infinite loop
+north
+east
+# Hot Chocolate Fountain
+# take photons
+north
+# Storage
+take candy cane
+south
+# Hot Chocolate Fountain
+west
+# Hallway
+north
+# Hull Breach
+west
+# Gift Wrapping Center
+take mug
+north
+# Warp Drive Maintenance
+take easter egg
+south
+# Gift Wrapping Center
+west
+# Navigation
+east
+# Gift Wrapping Center
+east
+# Hull Breach
+east
+# Passages
+take coin
+north
+# Corridor
+east
+# Crew Quarters
+take manifold
+west
+# Corridor
+north
+# Arcade
+take hypercube
+south
+# Corridor
+south
+# Passages
+south
+# Science Lab
+east
+# Sick Bay
+take pointer
+west
+# Science Lab
+west
+# Engineering
+take astrolabe
+north
+# Kitchen
+east
+# Holodeck
+north
+# Security Checkpoint
+inv
+drop pointer
+drop manifold
+drop easter egg
+drop candy cane
