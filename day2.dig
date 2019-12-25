@@ -128,12 +128,31 @@
           <string>rotation</string>
           <rotation rotation="1"/>
         </entry>
+      </elementAttributes>
+      <pos x="60" y="260"/>
+    </visualElement>
+    <visualElement>
+      <elementName>Const</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Value</string>
+          <long>-1</long>
+        </entry>
+        <entry>
+          <string>intFormat</string>
+          <intFormat>decSigned</intFormat>
+        </entry>
         <entry>
           <string>Bits</string>
           <int>64</int>
         </entry>
       </elementAttributes>
       <pos x="100" y="180"/>
+    </visualElement>
+    <visualElement>
+      <elementName>VDD</elementName>
+      <elementAttributes/>
+      <pos x="20" y="200"/>
     </visualElement>
   </visualElements>
   <wires>
@@ -184,6 +203,10 @@
     <wire>
       <p1 x="320" y="200"/>
       <p2 x="340" y="200"/>
+    </wire>
+    <wire>
+      <p1 x="20" y="200"/>
+      <p2 x="120" y="200"/>
     </wire>
     <wire>
       <p1 x="560" y="220"/>
