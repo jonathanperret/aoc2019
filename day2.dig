@@ -14,7 +14,12 @@
   <visualElements>
     <visualElement>
       <elementName>intcode.dig</elementName>
-      <elementAttributes/>
+      <elementAttributes>
+        <entry>
+          <string>generic</string>
+          <string>ramLabel := &quot;ram0&quot;;</string>
+        </entry>
+      </elementAttributes>
       <pos x="120" y="160"/>
     </visualElement>
     <visualElement>
@@ -122,16 +127,6 @@
       <pos x="320" y="200"/>
     </visualElement>
     <visualElement>
-      <elementName>Ground</elementName>
-      <elementAttributes>
-        <entry>
-          <string>rotation</string>
-          <rotation rotation="1"/>
-        </entry>
-      </elementAttributes>
-      <pos x="60" y="260"/>
-    </visualElement>
-    <visualElement>
       <elementName>Const</elementName>
       <elementAttributes>
         <entry>
@@ -139,20 +134,40 @@
           <long>-1</long>
         </entry>
         <entry>
-          <string>intFormat</string>
-          <intFormat>decSigned</intFormat>
-        </entry>
-        <entry>
           <string>Bits</string>
           <int>64</int>
+        </entry>
+        <entry>
+          <string>intFormat</string>
+          <intFormat>decSigned</intFormat>
         </entry>
       </elementAttributes>
       <pos x="100" y="180"/>
     </visualElement>
     <visualElement>
       <elementName>VDD</elementName>
+      <elementAttributes>
+        <entry>
+          <string>rotation</string>
+          <rotation rotation="1"/>
+        </entry>
+      </elementAttributes>
+      <pos x="100" y="200"/>
+    </visualElement>
+    <visualElement>
+      <elementName>Not</elementName>
       <elementAttributes/>
-      <pos x="20" y="200"/>
+      <pos x="300" y="400"/>
+    </visualElement>
+    <visualElement>
+      <elementName>Break</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Label</string>
+          <string>halt</string>
+        </entry>
+      </elementAttributes>
+      <pos x="360" y="400"/>
     </visualElement>
   </visualElements>
   <wires>
@@ -181,6 +196,14 @@
       <p2 x="580" y="240"/>
     </wire>
     <wire>
+      <p1 x="280" y="400"/>
+      <p2 x="300" y="400"/>
+    </wire>
+    <wire>
+      <p1 x="340" y="400"/>
+      <p2 x="360" y="400"/>
+    </wire>
+    <wire>
       <p1 x="300" y="260"/>
       <p2 x="440" y="260"/>
     </wire>
@@ -205,7 +228,7 @@
       <p2 x="340" y="200"/>
     </wire>
     <wire>
-      <p1 x="20" y="200"/>
+      <p1 x="100" y="200"/>
       <p2 x="120" y="200"/>
     </wire>
     <wire>
