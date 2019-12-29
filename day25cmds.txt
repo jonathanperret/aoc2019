@@ -11,7 +11,7 @@ east
 # take photons
 north
 # Storage
-take candy cane
+# take candy cane
 south
 # Hot Chocolate Fountain
 west
@@ -23,7 +23,7 @@ west
 take mug
 north
 # Warp Drive Maintenance
-take easter egg
+# take easter egg
 south
 # Gift Wrapping Center
 west
@@ -39,7 +39,7 @@ north
 # Corridor
 east
 # Crew Quarters
-take manifold
+# take manifold
 west
 # Corridor
 north
@@ -53,7 +53,7 @@ south
 # Science Lab
 east
 # Sick Bay
-take pointer
+# take pointer
 west
 # Science Lab
 west
@@ -66,7 +66,9 @@ east
 north
 # Security Checkpoint
 inv
-drop pointer
-drop manifold
-drop easter egg
-drop candy cane
+# drop pointer
+# drop manifold
+# drop easter egg
+# drop candy cane
+east
+inv

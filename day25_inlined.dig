@@ -20,7 +20,7 @@
     </entry>
     <entry>
       <string>preloadProgramFile</string>
-      <file>/Users/jonathanperret/Documents/projects/aoc2019/intcode.hex</file>
+      <file>/Users/jonathanperret/Documents/projects/aoc2019/day25.hex</file>
     </entry>
   </attributes>
   <visualElements>
@@ -933,7 +933,7 @@
         </entry>
         <entry>
           <string>Frequency</string>
-          <int>2</int>
+          <int>20000</int>
         </entry>
       </elementAttributes>
       <pos x="-400" y="-1660"/>
@@ -3002,12 +3002,12 @@ pc+phase+1</string>
       <elementName>Rectangle</elementName>
       <elementAttributes>
         <entry>
-          <string>Label</string>
-          <string>Param addr</string>
-        </entry>
-        <entry>
           <string>RectHeight</string>
           <int>28</int>
+        </entry>
+        <entry>
+          <string>Label</string>
+          <string>Param addr</string>
         </entry>
         <entry>
           <string>RectWidth</string>
@@ -3020,12 +3020,12 @@ pc+phase+1</string>
       <elementName>Rectangle</elementName>
       <elementAttributes>
         <entry>
-          <string>Label</string>
-          <string>Instr/Param addr</string>
-        </entry>
-        <entry>
           <string>RectHeight</string>
           <int>6</int>
+        </entry>
+        <entry>
+          <string>Label</string>
+          <string>Instr/Param addr</string>
         </entry>
         <entry>
           <string>RectWidth</string>
@@ -3038,12 +3038,12 @@ pc+phase+1</string>
       <elementName>Rectangle</elementName>
       <elementAttributes>
         <entry>
-          <string>Label</string>
-          <string>RAM</string>
-        </entry>
-        <entry>
           <string>RectHeight</string>
           <int>8</int>
+        </entry>
+        <entry>
+          <string>Label</string>
+          <string>RAM</string>
         </entry>
         <entry>
           <string>RectWidth</string>
@@ -3056,12 +3056,12 @@ pc+phase+1</string>
       <elementName>Rectangle</elementName>
       <elementAttributes>
         <entry>
-          <string>Label</string>
-          <string>Clock</string>
-        </entry>
-        <entry>
           <string>RectHeight</string>
           <int>21</int>
+        </entry>
+        <entry>
+          <string>Label</string>
+          <string>Clock</string>
         </entry>
         <entry>
           <string>RectWidth</string>
@@ -3074,12 +3074,12 @@ pc+phase+1</string>
       <elementName>Rectangle</elementName>
       <elementAttributes>
         <entry>
-          <string>Label</string>
-          <string>Pins</string>
-        </entry>
-        <entry>
           <string>RectHeight</string>
           <int>18</int>
+        </entry>
+        <entry>
+          <string>Label</string>
+          <string>Pins</string>
         </entry>
         <entry>
           <string>RectWidth</string>
@@ -3286,12 +3286,12 @@ pc+phase+1</string>
       <elementName>Rectangle</elementName>
       <elementAttributes>
         <entry>
-          <string>Label</string>
-          <string>Instr phase</string>
-        </entry>
-        <entry>
           <string>RectHeight</string>
           <int>6</int>
+        </entry>
+        <entry>
+          <string>Label</string>
+          <string>Instr phase</string>
         </entry>
         <entry>
           <string>RectWidth</string>
@@ -3304,12 +3304,12 @@ pc+phase+1</string>
       <elementName>Rectangle</elementName>
       <elementAttributes>
         <entry>
-          <string>Label</string>
-          <string>I/O</string>
-        </entry>
-        <entry>
           <string>RectHeight</string>
           <int>31</int>
+        </entry>
+        <entry>
+          <string>Label</string>
+          <string>I/O</string>
         </entry>
         <entry>
           <string>RectWidth</string>
@@ -3317,6 +3317,281 @@ pc+phase+1</string>
         </entry>
       </elementAttributes>
       <pos x="360" y="-20"/>
+    </visualElement>
+    <visualElement>
+      <elementName>ROM</elementName>
+      <elementAttributes>
+        <entry>
+          <string>AddrBits</string>
+          <int>16</int>
+        </entry>
+        <entry>
+          <string>Label</string>
+          <string>input</string>
+        </entry>
+        <entry>
+          <string>Bits</string>
+          <int>8</int>
+        </entry>
+        <entry>
+          <string>Data</string>
+          <data>73,6f,75,74,68,a,73,6f,75,74,68,a,6e,6f,72,74,68,a,65,61,73,74,a,6e,6f,72,74,68,a,
+73,6f,75,74,68,a,77,65,73,74,a,6e,6f,72,74,68,a,77,65,73,74,a,74,61,6b,65,20,6d,75,
+67,a,6e,6f,72,74,68,a,73,6f,75,74,68,a,77,65,73,74,a,65,61,73,74,a,65,61,73,74,a,
+65,61,73,74,a,74,61,6b,65,20,63,6f,69,6e,a,6e,6f,72,74,68,a,65,61,73,74,a,77,65,73,
+74,a,6e,6f,72,74,68,a,74,61,6b,65,20,68,79,70,65,72,63,75,62,65,a,73,6f,75,74,68,
+a,73,6f,75,74,68,a,73,6f,75,74,68,a,65,61,73,74,a,77,65,73,74,a,77,65,73,74,a,74,
+61,6b,65,20,61,73,74,72,6f,6c,61,62,65,a,6e,6f,72,74,68,a,65,61,73,74,a,6e,6f,72,
+74,68,a,69,6e,76,a,65,61,73,74,a,69,6e,76,a</data>
+        </entry>
+        <entry>
+          <string>lastDataFile</string>
+          <string>/Users/jonathanperret/Documents/projects/aoc2019/day25cmds.hex</string>
+        </entry>
+      </elementAttributes>
+      <pos x="-480" y="-1880"/>
+    </visualElement>
+    <visualElement>
+      <elementName>Counter</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Bits</string>
+          <int>16</int>
+        </entry>
+      </elementAttributes>
+      <pos x="-580" y="-1880"/>
+    </visualElement>
+    <visualElement>
+      <elementName>VDD</elementName>
+      <elementAttributes>
+        <entry>
+          <string>rotation</string>
+          <rotation rotation="1"/>
+        </entry>
+      </elementAttributes>
+      <pos x="-500" y="-1840"/>
+    </visualElement>
+    <visualElement>
+      <elementName>Ground</elementName>
+      <elementAttributes>
+        <entry>
+          <string>rotation</string>
+          <rotation rotation="1"/>
+        </entry>
+      </elementAttributes>
+      <pos x="-600" y="-1840"/>
+    </visualElement>
+    <visualElement>
+      <elementName>Out</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Label</string>
+          <string>in_cnt</string>
+        </entry>
+        <entry>
+          <string>Bits</string>
+          <int>16</int>
+        </entry>
+        <entry>
+          <string>intFormat</string>
+          <intFormat>dec</intFormat>
+        </entry>
+      </elementAttributes>
+      <pos x="-140" y="-1920"/>
+    </visualElement>
+    <visualElement>
+      <elementName>Tunnel</elementName>
+      <elementAttributes>
+        <entry>
+          <string>rotation</string>
+          <rotation rotation="2"/>
+        </entry>
+        <entry>
+          <string>NetName</string>
+          <string>C</string>
+        </entry>
+      </elementAttributes>
+      <pos x="-600" y="-1860"/>
+    </visualElement>
+    <visualElement>
+      <elementName>Break</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Cycles</string>
+          <int>10000000</int>
+        </entry>
+        <entry>
+          <string>Label</string>
+          <string>halt</string>
+        </entry>
+      </elementAttributes>
+      <pos x="0" y="-2080"/>
+    </visualElement>
+    <visualElement>
+      <elementName>Not</elementName>
+      <elementAttributes/>
+      <pos x="-100" y="-2080"/>
+    </visualElement>
+    <visualElement>
+      <elementName>Terminal</elementName>
+      <elementAttributes/>
+      <pos x="60" y="-2180"/>
+    </visualElement>
+    <visualElement>
+      <elementName>Tunnel</elementName>
+      <elementAttributes>
+        <entry>
+          <string>rotation</string>
+          <rotation rotation="2"/>
+        </entry>
+        <entry>
+          <string>NetName</string>
+          <string>C</string>
+        </entry>
+      </elementAttributes>
+      <pos x="40" y="-2160"/>
+    </visualElement>
+    <visualElement>
+      <elementName>Break</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Label</string>
+          <string>in_req</string>
+        </entry>
+        <entry>
+          <string>enabled</string>
+          <boolean>false</boolean>
+        </entry>
+      </elementAttributes>
+      <pos x="-60" y="-1980"/>
+    </visualElement>
+    <visualElement>
+      <elementName>Splitter</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Input Splitting</string>
+          <string>8,56</string>
+        </entry>
+        <entry>
+          <string>Output Splitting</string>
+          <string>64</string>
+        </entry>
+      </elementAttributes>
+      <pos x="-380" y="-1860"/>
+    </visualElement>
+    <visualElement>
+      <elementName>Ground</elementName>
+      <elementAttributes>
+        <entry>
+          <string>rotation</string>
+          <rotation rotation="2"/>
+        </entry>
+        <entry>
+          <string>Bits</string>
+          <int>56</int>
+        </entry>
+      </elementAttributes>
+      <pos x="-380" y="-1820"/>
+    </visualElement>
+    <visualElement>
+      <elementName>Probe</elementName>
+      <elementAttributes>
+        <entry>
+          <string>intFormat</string>
+          <intFormat>dec</intFormat>
+        </entry>
+      </elementAttributes>
+      <pos x="-60" y="-2100"/>
+    </visualElement>
+    <visualElement>
+      <elementName>Tunnel</elementName>
+      <elementAttributes>
+        <entry>
+          <string>NetName</string>
+          <string>in_val</string>
+        </entry>
+      </elementAttributes>
+      <pos x="-280" y="-2300"/>
+    </visualElement>
+    <visualElement>
+      <elementName>Tunnel</elementName>
+      <elementAttributes>
+        <entry>
+          <string>NetName</string>
+          <string>in_avail</string>
+        </entry>
+      </elementAttributes>
+      <pos x="-280" y="-2280"/>
+    </visualElement>
+    <visualElement>
+      <elementName>Tunnel</elementName>
+      <elementAttributes>
+        <entry>
+          <string>rotation</string>
+          <rotation rotation="2"/>
+        </entry>
+        <entry>
+          <string>NetName</string>
+          <string>out_en</string>
+        </entry>
+      </elementAttributes>
+      <pos x="-120" y="-2140"/>
+    </visualElement>
+    <visualElement>
+      <elementName>Tunnel</elementName>
+      <elementAttributes>
+        <entry>
+          <string>rotation</string>
+          <rotation rotation="2"/>
+        </entry>
+        <entry>
+          <string>NetName</string>
+          <string>out_val</string>
+        </entry>
+      </elementAttributes>
+      <pos x="-120" y="-2120"/>
+    </visualElement>
+    <visualElement>
+      <elementName>Tunnel</elementName>
+      <elementAttributes>
+        <entry>
+          <string>rotation</string>
+          <rotation rotation="2"/>
+        </entry>
+        <entry>
+          <string>NetName</string>
+          <string>cycle_cnt</string>
+        </entry>
+      </elementAttributes>
+      <pos x="-120" y="-2100"/>
+    </visualElement>
+    <visualElement>
+      <elementName>Tunnel</elementName>
+      <elementAttributes>
+        <entry>
+          <string>rotation</string>
+          <rotation rotation="2"/>
+        </entry>
+        <entry>
+          <string>NetName</string>
+          <string>running</string>
+        </entry>
+      </elementAttributes>
+      <pos x="-120" y="-2080"/>
+    </visualElement>
+    <visualElement>
+      <elementName>Tunnel</elementName>
+      <elementAttributes>
+        <entry>
+          <string>rotation</string>
+          <rotation rotation="2"/>
+        </entry>
+        <entry>
+          <string>NetName</string>
+          <string>in_req</string>
+        </entry>
+      </elementAttributes>
+      <pos x="-120" y="-2060"/>
     </visualElement>
   </visualElements>
   <wires>
@@ -3367,6 +3642,10 @@ pc+phase+1</string>
     <wire>
       <p1 x="1740" y="-1040"/>
       <p2 x="1760" y="-1080"/>
+    </wire>
+    <wire>
+      <p1 x="-100" y="-2060"/>
+      <p2 x="-80" y="-2040"/>
     </wire>
     <wire>
       <p1 x="2160" y="0"/>
@@ -3423,6 +3702,10 @@ pc+phase+1</string>
     <wire>
       <p1 x="980" y="520"/>
       <p2 x="1020" y="520"/>
+    </wire>
+    <wire>
+      <p1 x="-120" y="-2060"/>
+      <p2 x="-100" y="-2060"/>
     </wire>
     <wire>
       <p1 x="2160" y="-20"/>
@@ -3557,6 +3840,14 @@ pc+phase+1</string>
       <p2 x="-1180" y="-800"/>
     </wire>
     <wire>
+      <p1 x="-60" y="-2080"/>
+      <p2 x="0" y="-2080"/>
+    </wire>
+    <wire>
+      <p1 x="-120" y="-2080"/>
+      <p2 x="-100" y="-2080"/>
+    </wire>
+    <wire>
       <p1 x="-720" y="-1060"/>
       <p2 x="-600" y="-1060"/>
     </wire>
@@ -3681,6 +3972,14 @@ pc+phase+1</string>
       <p2 x="2440" y="-560"/>
     </wire>
     <wire>
+      <p1 x="-500" y="-1840"/>
+      <p2 x="-480" y="-1840"/>
+    </wire>
+    <wire>
+      <p1 x="-600" y="-1840"/>
+      <p2 x="-580" y="-1840"/>
+    </wire>
+    <wire>
       <p1 x="-920" y="560"/>
       <p2 x="-720" y="560"/>
     </wire>
@@ -3699,6 +3998,10 @@ pc+phase+1</string>
     <wire>
       <p1 x="-1080" y="-820"/>
       <p2 x="-1040" y="-820"/>
+    </wire>
+    <wire>
+      <p1 x="-120" y="-2100"/>
+      <p2 x="-60" y="-2100"/>
     </wire>
     <wire>
       <p1 x="-720" y="-1080"/>
@@ -3797,6 +4100,18 @@ pc+phase+1</string>
       <p2 x="1640" y="-580"/>
     </wire>
     <wire>
+      <p1 x="-600" y="-1860"/>
+      <p2 x="-580" y="-1860"/>
+    </wire>
+    <wire>
+      <p1 x="-360" y="-1860"/>
+      <p2 x="-320" y="-1860"/>
+    </wire>
+    <wire>
+      <p1 x="-420" y="-1860"/>
+      <p2 x="-380" y="-1860"/>
+    </wire>
+    <wire>
       <p1 x="-640" y="580"/>
       <p2 x="-540" y="580"/>
     </wire>
@@ -3807,6 +4122,10 @@ pc+phase+1</string>
     <wire>
       <p1 x="-700" y="-840"/>
       <p2 x="-540" y="-840"/>
+    </wire>
+    <wire>
+      <p1 x="-120" y="-2120"/>
+      <p2 x="0" y="-2120"/>
     </wire>
     <wire>
       <p1 x="-540" y="-1100"/>
@@ -3913,12 +4232,28 @@ pc+phase+1</string>
       <p2 x="1520" y="-600"/>
     </wire>
     <wire>
+      <p1 x="-520" y="-1880"/>
+      <p2 x="-500" y="-1880"/>
+    </wire>
+    <wire>
+      <p1 x="-600" y="-1880"/>
+      <p2 x="-580" y="-1880"/>
+    </wire>
+    <wire>
+      <p1 x="-500" y="-1880"/>
+      <p2 x="-480" y="-1880"/>
+    </wire>
+    <wire>
       <p1 x="-460" y="600"/>
       <p2 x="-420" y="600"/>
     </wire>
     <wire>
       <p1 x="-940" y="600"/>
       <p2 x="-720" y="600"/>
+    </wire>
+    <wire>
+      <p1 x="-120" y="-2140"/>
+      <p2 x="60" y="-2140"/>
     </wire>
     <wire>
       <p1 x="-420" y="-1120"/>
@@ -4001,6 +4336,10 @@ pc+phase+1</string>
       <p2 x="-720" y="-880"/>
     </wire>
     <wire>
+      <p1 x="40" y="-2160"/>
+      <p2 x="60" y="-2160"/>
+    </wire>
+    <wire>
       <p1 x="-520" y="-1140"/>
       <p2 x="-500" y="-1140"/>
     </wire>
@@ -4067,6 +4406,14 @@ pc+phase+1</string>
     <wire>
       <p1 x="2000" y="-640"/>
       <p2 x="2240" y="-640"/>
+    </wire>
+    <wire>
+      <p1 x="-500" y="-1920"/>
+      <p2 x="-140" y="-1920"/>
+    </wire>
+    <wire>
+      <p1 x="0" y="-2180"/>
+      <p2 x="60" y="-2180"/>
     </wire>
     <wire>
       <p1 x="-720" y="-1160"/>
@@ -4281,6 +4628,18 @@ pc+phase+1</string>
       <p2 x="2520" y="-700"/>
     </wire>
     <wire>
+      <p1 x="-600" y="-1980"/>
+      <p2 x="-300" y="-1980"/>
+    </wire>
+    <wire>
+      <p1 x="-300" y="-1980"/>
+      <p2 x="-80" y="-1980"/>
+    </wire>
+    <wire>
+      <p1 x="-80" y="-1980"/>
+      <p2 x="-60" y="-1980"/>
+    </wire>
+    <wire>
       <p1 x="600" y="-960"/>
       <p2 x="1600" y="-960"/>
     </wire>
@@ -4469,6 +4828,10 @@ pc+phase+1</string>
       <p2 x="2280" y="-1000"/>
     </wire>
     <wire>
+      <p1 x="-300" y="-2280"/>
+      <p2 x="-280" y="-2280"/>
+    </wire>
+    <wire>
       <p1 x="1420" y="-1260"/>
       <p2 x="1660" y="-1260"/>
     </wire>
@@ -4537,6 +4900,10 @@ pc+phase+1</string>
       <p2 x="580" y="-1020"/>
     </wire>
     <wire>
+      <p1 x="-320" y="-2300"/>
+      <p2 x="-280" y="-2300"/>
+    </wire>
+    <wire>
       <p1 x="1700" y="-1280"/>
       <p2 x="1760" y="-1280"/>
     </wire>
@@ -4547,6 +4914,10 @@ pc+phase+1</string>
     <wire>
       <p1 x="640" y="-340"/>
       <p2 x="640" y="-300"/>
+    </wire>
+    <wire>
+      <p1 x="0" y="-2180"/>
+      <p2 x="0" y="-2120"/>
     </wire>
     <wire>
       <p1 x="-900" y="-260"/>
@@ -4689,6 +5060,10 @@ pc+phase+1</string>
       <p2 x="-940" y="600"/>
     </wire>
     <wire>
+      <p1 x="-300" y="-2280"/>
+      <p2 x="-300" y="-1980"/>
+    </wire>
+    <wire>
       <p1 x="1580" y="-1460"/>
       <p2 x="1580" y="-1060"/>
     </wire>
@@ -4761,6 +5136,10 @@ pc+phase+1</string>
       <p2 x="1980" y="-1360"/>
     </wire>
     <wire>
+      <p1 x="-320" y="-2300"/>
+      <p2 x="-320" y="-1860"/>
+    </wire>
+    <wire>
       <p1 x="1600" y="-1160"/>
       <p2 x="1600" y="-1020"/>
     </wire>
@@ -4821,6 +5200,10 @@ pc+phase+1</string>
       <p2 x="-720" y="-860"/>
     </wire>
     <wire>
+      <p1 x="-80" y="-2040"/>
+      <p2 x="-80" y="-1980"/>
+    </wire>
+    <wire>
       <p1 x="1360" y="-1420"/>
       <p2 x="1360" y="-1380"/>
     </wire>
@@ -4851,6 +5234,10 @@ pc+phase+1</string>
     <wire>
       <p1 x="-600" y="480"/>
       <p2 x="-600" y="720"/>
+    </wire>
+    <wire>
+      <p1 x="-600" y="-1980"/>
+      <p2 x="-600" y="-1880"/>
     </wire>
     <wire>
       <p1 x="600" y="-1480"/>
@@ -4997,6 +5384,10 @@ pc+phase+1</string>
       <p2 x="2160" y="100"/>
     </wire>
     <wire>
+      <p1 x="-500" y="-1920"/>
+      <p2 x="-500" y="-1880"/>
+    </wire>
+    <wire>
       <p1 x="500" y="180"/>
       <p2 x="500" y="460"/>
     </wire>
@@ -5019,6 +5410,10 @@ pc+phase+1</string>
     <wire>
       <p1 x="-380" y="-260"/>
       <p2 x="-380" y="-240"/>
+    </wire>
+    <wire>
+      <p1 x="-380" y="-1840"/>
+      <p2 x="-380" y="-1820"/>
     </wire>
   </wires>
   <measurementOrdering>
