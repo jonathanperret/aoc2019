@@ -106,6 +106,11 @@ function process_network(    address, network_busy, computer_busy) {
   if(!network_busy) {
     if(g_nat_got_packet) {
       # g_nat_got_packet = 0;
+      if(g_nat_y == g_nat_last_y) {
+        printf "NAT about to send same Y as last: %d\n", g_nat_y >> "/dev/stderr";
+        exit 0;
+      }
+      g_nat_last_y = g_nat_y;
       printf "NAT sending %d,%d\n", g_nat_x, g_nat_y >> "/dev/stderr";
       send_one(0, g_nat_x);
       send_one(0, g_nat_y);
@@ -136,6 +141,7 @@ BEGIN {
 
   g_nat_x = -1;
   g_nat_y = -1;
+  g_nat_last_y = -2;
   g_nat_expecting_x = 1;
   g_nat_got_packet = 0;
 
@@ -150,8 +156,6 @@ BEGIN {
     process_network();
     g_steps++;
   }
-
-  stop_computers();
 
   exit 0;
   if(0) {
