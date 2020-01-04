@@ -24,7 +24,7 @@
           <string>label := &quot;node0&quot;;</string>
         </entry>
       </elementAttributes>
-      <pos x="660" y="340"/>
+      <pos x="680" y="340"/>
     </visualElement>
     <visualElement>
       <elementName>Clock</elementName>
@@ -522,7 +522,7 @@ ffffffffffffffff</data>
           <string>C</string>
         </entry>
       </elementAttributes>
-      <pos x="640" y="400"/>
+      <pos x="660" y="400"/>
     </visualElement>
     <visualElement>
       <elementName>Probe</elementName>
@@ -532,7 +532,7 @@ ffffffffffffffff</data>
           <intFormat>decSigned</intFormat>
         </entry>
       </elementAttributes>
-      <pos x="900" y="400"/>
+      <pos x="920" y="400"/>
     </visualElement>
     <visualElement>
       <elementName>Const</elementName>
@@ -601,6 +601,16 @@ ffffffffffffffff</data>
       </elementAttributes>
       <pos x="1200" y="200"/>
     </visualElement>
+    <visualElement>
+      <elementName>Ground</elementName>
+      <elementAttributes/>
+      <pos x="800" y="320"/>
+    </visualElement>
+    <visualElement>
+      <elementName>LED</elementName>
+      <elementAttributes/>
+      <pos x="800" y="500"/>
+    </visualElement>
   </visualElements>
   <wires>
     <wire>
@@ -656,12 +666,12 @@ ffffffffffffffff</data>
       <p2 x="1300" y="400"/>
     </wire>
     <wire>
-      <p1 x="860" y="400"/>
-      <p2 x="900" y="400"/>
+      <p1 x="880" y="400"/>
+      <p2 x="920" y="400"/>
     </wire>
     <wire>
-      <p1 x="640" y="400"/>
-      <p2 x="660" y="400"/>
+      <p1 x="660" y="400"/>
+      <p2 x="680" y="400"/>
     </wire>
     <wire>
       <p1 x="1140" y="720"/>
@@ -858,6 +868,14 @@ ffffffffffffffff</data>
     <wire>
       <p1 x="560" y="280"/>
       <p2 x="560" y="540"/>
+    </wire>
+    <wire>
+      <p1 x="800" y="320"/>
+      <p2 x="800" y="340"/>
+    </wire>
+    <wire>
+      <p1 x="800" y="460"/>
+      <p2 x="800" y="500"/>
     </wire>
     <wire>
       <p1 x="1140" y="500"/>

@@ -370,6 +370,20 @@
       </elementAttributes>
       <pos x="920" y="880"/>
     </visualElement>
+    <visualElement>
+      <elementName>Out</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Label</string>
+          <string>out_y</string>
+        </entry>
+        <entry>
+          <string>Description</string>
+          <string>Is this the Y value ?</string>
+        </entry>
+      </elementAttributes>
+      <pos x="1100" y="660"/>
+    </visualElement>
   </visualElements>
   <wires>
     <wire>
@@ -378,6 +392,10 @@
     </wire>
     <wire>
       <p1 x="640" y="640"/>
+      <p2 x="700" y="640"/>
+    </wire>
+    <wire>
+      <p1 x="700" y="640"/>
       <p2 x="740" y="640"/>
     </wire>
     <wire>
@@ -479,6 +497,10 @@
     <wire>
       <p1 x="560" y="820"/>
       <p2 x="620" y="820"/>
+    </wire>
+    <wire>
+      <p1 x="700" y="660"/>
+      <p2 x="1100" y="660"/>
     </wire>
     <wire>
       <p1 x="300" y="920"/>
@@ -671,6 +693,10 @@
     <wire>
       <p1 x="540" y="960"/>
       <p2 x="540" y="1000"/>
+    </wire>
+    <wire>
+      <p1 x="700" y="640"/>
+      <p2 x="700" y="660"/>
     </wire>
   </wires>
   <measurementOrdering/>

@@ -20,7 +20,7 @@
         </entry>
         <entry>
           <string>Data</string>
-          <data>11,12,0,13,e,0,0,f,10</data>
+          <data>11,12,0,13,e,0,0,f,10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,31,0,0,0,0,0,0,32,0,0,0,33</data>
         </entry>
         <entry>
           <string>lastDataFile</string>
@@ -501,6 +501,11 @@
       <elementAttributes/>
       <pos x="1140" y="820"/>
     </visualElement>
+    <visualElement>
+      <elementName>Probe</elementName>
+      <elementAttributes/>
+      <pos x="780" y="480"/>
+    </visualElement>
   </visualElements>
   <wires>
     <wire>
@@ -666,6 +671,10 @@
     <wire>
       <p1 x="420" y="480"/>
       <p2 x="600" y="480"/>
+    </wire>
+    <wire>
+      <p1 x="760" y="480"/>
+      <p2 x="780" y="480"/>
     </wire>
     <wire>
       <p1 x="1100" y="800"/>
