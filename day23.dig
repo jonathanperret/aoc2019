@@ -43,7 +43,7 @@
         </entry>
         <entry>
           <string>Frequency</string>
-          <int>2000</int>
+          <int>4000</int>
         </entry>
       </elementAttributes>
       <pos x="2720" y="2360"/>
@@ -2006,16 +2006,6 @@
       <pos x="2580" y="2480"/>
     </visualElement>
     <visualElement>
-      <elementName>Probe</elementName>
-      <elementAttributes>
-        <entry>
-          <string>intFormat</string>
-          <intFormat>dec</intFormat>
-        </entry>
-      </elementAttributes>
-      <pos x="2720" y="2440"/>
-    </visualElement>
-    <visualElement>
       <elementName>And</elementName>
       <elementAttributes>
         <entry>
@@ -2060,506 +2050,6 @@
       <pos x="2940" y="2180"/>
     </visualElement>
     <visualElement>
-      <elementName>Probe</elementName>
-      <elementAttributes>
-        <entry>
-          <string>intFormat</string>
-          <intFormat>dec</intFormat>
-        </entry>
-      </elementAttributes>
-      <pos x="740" y="400"/>
-    </visualElement>
-    <visualElement>
-      <elementName>Probe</elementName>
-      <elementAttributes>
-        <entry>
-          <string>intFormat</string>
-          <intFormat>dec</intFormat>
-        </entry>
-      </elementAttributes>
-      <pos x="740" y="540"/>
-    </visualElement>
-    <visualElement>
-      <elementName>Probe</elementName>
-      <elementAttributes>
-        <entry>
-          <string>intFormat</string>
-          <intFormat>dec</intFormat>
-        </entry>
-      </elementAttributes>
-      <pos x="740" y="680"/>
-    </visualElement>
-    <visualElement>
-      <elementName>Probe</elementName>
-      <elementAttributes>
-        <entry>
-          <string>intFormat</string>
-          <intFormat>dec</intFormat>
-        </entry>
-      </elementAttributes>
-      <pos x="740" y="820"/>
-    </visualElement>
-    <visualElement>
-      <elementName>Probe</elementName>
-      <elementAttributes>
-        <entry>
-          <string>intFormat</string>
-          <intFormat>dec</intFormat>
-        </entry>
-      </elementAttributes>
-      <pos x="740" y="960"/>
-    </visualElement>
-    <visualElement>
-      <elementName>Probe</elementName>
-      <elementAttributes>
-        <entry>
-          <string>intFormat</string>
-          <intFormat>dec</intFormat>
-        </entry>
-      </elementAttributes>
-      <pos x="740" y="1100"/>
-    </visualElement>
-    <visualElement>
-      <elementName>Probe</elementName>
-      <elementAttributes>
-        <entry>
-          <string>intFormat</string>
-          <intFormat>dec</intFormat>
-        </entry>
-      </elementAttributes>
-      <pos x="740" y="1240"/>
-    </visualElement>
-    <visualElement>
-      <elementName>Probe</elementName>
-      <elementAttributes>
-        <entry>
-          <string>intFormat</string>
-          <intFormat>dec</intFormat>
-        </entry>
-      </elementAttributes>
-      <pos x="740" y="1380"/>
-    </visualElement>
-    <visualElement>
-      <elementName>Probe</elementName>
-      <elementAttributes>
-        <entry>
-          <string>intFormat</string>
-          <intFormat>dec</intFormat>
-        </entry>
-      </elementAttributes>
-      <pos x="740" y="1520"/>
-    </visualElement>
-    <visualElement>
-      <elementName>Probe</elementName>
-      <elementAttributes>
-        <entry>
-          <string>intFormat</string>
-          <intFormat>dec</intFormat>
-        </entry>
-      </elementAttributes>
-      <pos x="740" y="1660"/>
-    </visualElement>
-    <visualElement>
-      <elementName>Probe</elementName>
-      <elementAttributes>
-        <entry>
-          <string>intFormat</string>
-          <intFormat>dec</intFormat>
-        </entry>
-      </elementAttributes>
-      <pos x="740" y="1800"/>
-    </visualElement>
-    <visualElement>
-      <elementName>Probe</elementName>
-      <elementAttributes>
-        <entry>
-          <string>intFormat</string>
-          <intFormat>dec</intFormat>
-        </entry>
-      </elementAttributes>
-      <pos x="740" y="1940"/>
-    </visualElement>
-    <visualElement>
-      <elementName>Probe</elementName>
-      <elementAttributes>
-        <entry>
-          <string>intFormat</string>
-          <intFormat>dec</intFormat>
-        </entry>
-      </elementAttributes>
-      <pos x="740" y="2080"/>
-    </visualElement>
-    <visualElement>
-      <elementName>Probe</elementName>
-      <elementAttributes>
-        <entry>
-          <string>intFormat</string>
-          <intFormat>dec</intFormat>
-        </entry>
-      </elementAttributes>
-      <pos x="740" y="2220"/>
-    </visualElement>
-    <visualElement>
-      <elementName>Probe</elementName>
-      <elementAttributes>
-        <entry>
-          <string>intFormat</string>
-          <intFormat>dec</intFormat>
-        </entry>
-      </elementAttributes>
-      <pos x="740" y="2360"/>
-    </visualElement>
-    <visualElement>
-      <elementName>Probe</elementName>
-      <elementAttributes>
-        <entry>
-          <string>intFormat</string>
-          <intFormat>dec</intFormat>
-        </entry>
-      </elementAttributes>
-      <pos x="740" y="2500"/>
-    </visualElement>
-    <visualElement>
-      <elementName>Probe</elementName>
-      <elementAttributes>
-        <entry>
-          <string>intFormat</string>
-          <intFormat>dec</intFormat>
-        </entry>
-      </elementAttributes>
-      <pos x="1200" y="400"/>
-    </visualElement>
-    <visualElement>
-      <elementName>Probe</elementName>
-      <elementAttributes>
-        <entry>
-          <string>intFormat</string>
-          <intFormat>dec</intFormat>
-        </entry>
-      </elementAttributes>
-      <pos x="1200" y="540"/>
-    </visualElement>
-    <visualElement>
-      <elementName>Probe</elementName>
-      <elementAttributes>
-        <entry>
-          <string>intFormat</string>
-          <intFormat>dec</intFormat>
-        </entry>
-      </elementAttributes>
-      <pos x="1200" y="680"/>
-    </visualElement>
-    <visualElement>
-      <elementName>Probe</elementName>
-      <elementAttributes>
-        <entry>
-          <string>intFormat</string>
-          <intFormat>dec</intFormat>
-        </entry>
-      </elementAttributes>
-      <pos x="1200" y="820"/>
-    </visualElement>
-    <visualElement>
-      <elementName>Probe</elementName>
-      <elementAttributes>
-        <entry>
-          <string>intFormat</string>
-          <intFormat>dec</intFormat>
-        </entry>
-      </elementAttributes>
-      <pos x="1200" y="960"/>
-    </visualElement>
-    <visualElement>
-      <elementName>Probe</elementName>
-      <elementAttributes>
-        <entry>
-          <string>intFormat</string>
-          <intFormat>dec</intFormat>
-        </entry>
-      </elementAttributes>
-      <pos x="1200" y="1100"/>
-    </visualElement>
-    <visualElement>
-      <elementName>Probe</elementName>
-      <elementAttributes>
-        <entry>
-          <string>intFormat</string>
-          <intFormat>dec</intFormat>
-        </entry>
-      </elementAttributes>
-      <pos x="1200" y="1240"/>
-    </visualElement>
-    <visualElement>
-      <elementName>Probe</elementName>
-      <elementAttributes>
-        <entry>
-          <string>intFormat</string>
-          <intFormat>dec</intFormat>
-        </entry>
-      </elementAttributes>
-      <pos x="1200" y="1380"/>
-    </visualElement>
-    <visualElement>
-      <elementName>Probe</elementName>
-      <elementAttributes>
-        <entry>
-          <string>intFormat</string>
-          <intFormat>dec</intFormat>
-        </entry>
-      </elementAttributes>
-      <pos x="1200" y="1520"/>
-    </visualElement>
-    <visualElement>
-      <elementName>Probe</elementName>
-      <elementAttributes>
-        <entry>
-          <string>intFormat</string>
-          <intFormat>dec</intFormat>
-        </entry>
-      </elementAttributes>
-      <pos x="1200" y="1660"/>
-    </visualElement>
-    <visualElement>
-      <elementName>Probe</elementName>
-      <elementAttributes>
-        <entry>
-          <string>intFormat</string>
-          <intFormat>dec</intFormat>
-        </entry>
-      </elementAttributes>
-      <pos x="1200" y="1800"/>
-    </visualElement>
-    <visualElement>
-      <elementName>Probe</elementName>
-      <elementAttributes>
-        <entry>
-          <string>intFormat</string>
-          <intFormat>dec</intFormat>
-        </entry>
-      </elementAttributes>
-      <pos x="1200" y="1940"/>
-    </visualElement>
-    <visualElement>
-      <elementName>Probe</elementName>
-      <elementAttributes>
-        <entry>
-          <string>intFormat</string>
-          <intFormat>dec</intFormat>
-        </entry>
-      </elementAttributes>
-      <pos x="1200" y="2080"/>
-    </visualElement>
-    <visualElement>
-      <elementName>Probe</elementName>
-      <elementAttributes>
-        <entry>
-          <string>intFormat</string>
-          <intFormat>dec</intFormat>
-        </entry>
-      </elementAttributes>
-      <pos x="1200" y="2220"/>
-    </visualElement>
-    <visualElement>
-      <elementName>Probe</elementName>
-      <elementAttributes>
-        <entry>
-          <string>intFormat</string>
-          <intFormat>dec</intFormat>
-        </entry>
-      </elementAttributes>
-      <pos x="1200" y="2360"/>
-    </visualElement>
-    <visualElement>
-      <elementName>Probe</elementName>
-      <elementAttributes>
-        <entry>
-          <string>intFormat</string>
-          <intFormat>dec</intFormat>
-        </entry>
-      </elementAttributes>
-      <pos x="1200" y="2500"/>
-    </visualElement>
-    <visualElement>
-      <elementName>Probe</elementName>
-      <elementAttributes>
-        <entry>
-          <string>intFormat</string>
-          <intFormat>dec</intFormat>
-        </entry>
-      </elementAttributes>
-      <pos x="1640" y="400"/>
-    </visualElement>
-    <visualElement>
-      <elementName>Probe</elementName>
-      <elementAttributes>
-        <entry>
-          <string>intFormat</string>
-          <intFormat>dec</intFormat>
-        </entry>
-      </elementAttributes>
-      <pos x="1640" y="540"/>
-    </visualElement>
-    <visualElement>
-      <elementName>Probe</elementName>
-      <elementAttributes>
-        <entry>
-          <string>intFormat</string>
-          <intFormat>dec</intFormat>
-        </entry>
-      </elementAttributes>
-      <pos x="1640" y="680"/>
-    </visualElement>
-    <visualElement>
-      <elementName>Probe</elementName>
-      <elementAttributes>
-        <entry>
-          <string>intFormat</string>
-          <intFormat>dec</intFormat>
-        </entry>
-      </elementAttributes>
-      <pos x="1640" y="820"/>
-    </visualElement>
-    <visualElement>
-      <elementName>Probe</elementName>
-      <elementAttributes>
-        <entry>
-          <string>intFormat</string>
-          <intFormat>dec</intFormat>
-        </entry>
-      </elementAttributes>
-      <pos x="1640" y="960"/>
-    </visualElement>
-    <visualElement>
-      <elementName>Probe</elementName>
-      <elementAttributes>
-        <entry>
-          <string>intFormat</string>
-          <intFormat>dec</intFormat>
-        </entry>
-      </elementAttributes>
-      <pos x="1640" y="1100"/>
-    </visualElement>
-    <visualElement>
-      <elementName>Probe</elementName>
-      <elementAttributes>
-        <entry>
-          <string>intFormat</string>
-          <intFormat>dec</intFormat>
-        </entry>
-      </elementAttributes>
-      <pos x="1640" y="1240"/>
-    </visualElement>
-    <visualElement>
-      <elementName>Probe</elementName>
-      <elementAttributes>
-        <entry>
-          <string>intFormat</string>
-          <intFormat>dec</intFormat>
-        </entry>
-      </elementAttributes>
-      <pos x="1640" y="1380"/>
-    </visualElement>
-    <visualElement>
-      <elementName>Probe</elementName>
-      <elementAttributes>
-        <entry>
-          <string>intFormat</string>
-          <intFormat>dec</intFormat>
-        </entry>
-      </elementAttributes>
-      <pos x="1640" y="1520"/>
-    </visualElement>
-    <visualElement>
-      <elementName>Probe</elementName>
-      <elementAttributes>
-        <entry>
-          <string>intFormat</string>
-          <intFormat>dec</intFormat>
-        </entry>
-      </elementAttributes>
-      <pos x="1640" y="1660"/>
-    </visualElement>
-    <visualElement>
-      <elementName>Probe</elementName>
-      <elementAttributes>
-        <entry>
-          <string>intFormat</string>
-          <intFormat>dec</intFormat>
-        </entry>
-      </elementAttributes>
-      <pos x="1640" y="1800"/>
-    </visualElement>
-    <visualElement>
-      <elementName>Probe</elementName>
-      <elementAttributes>
-        <entry>
-          <string>intFormat</string>
-          <intFormat>dec</intFormat>
-        </entry>
-      </elementAttributes>
-      <pos x="1640" y="1940"/>
-    </visualElement>
-    <visualElement>
-      <elementName>Probe</elementName>
-      <elementAttributes>
-        <entry>
-          <string>intFormat</string>
-          <intFormat>dec</intFormat>
-        </entry>
-      </elementAttributes>
-      <pos x="1640" y="2080"/>
-    </visualElement>
-    <visualElement>
-      <elementName>Probe</elementName>
-      <elementAttributes>
-        <entry>
-          <string>intFormat</string>
-          <intFormat>dec</intFormat>
-        </entry>
-      </elementAttributes>
-      <pos x="1640" y="2220"/>
-    </visualElement>
-    <visualElement>
-      <elementName>Probe</elementName>
-      <elementAttributes>
-        <entry>
-          <string>intFormat</string>
-          <intFormat>dec</intFormat>
-        </entry>
-      </elementAttributes>
-      <pos x="1640" y="2360"/>
-    </visualElement>
-    <visualElement>
-      <elementName>Probe</elementName>
-      <elementAttributes>
-        <entry>
-          <string>intFormat</string>
-          <intFormat>dec</intFormat>
-        </entry>
-      </elementAttributes>
-      <pos x="1640" y="2500"/>
-    </visualElement>
-    <visualElement>
-      <elementName>Probe</elementName>
-      <elementAttributes>
-        <entry>
-          <string>intFormat</string>
-          <intFormat>dec</intFormat>
-        </entry>
-      </elementAttributes>
-      <pos x="2080" y="400"/>
-    </visualElement>
-    <visualElement>
-      <elementName>Probe</elementName>
-      <elementAttributes>
-        <entry>
-          <string>intFormat</string>
-          <intFormat>dec</intFormat>
-        </entry>
-      </elementAttributes>
-      <pos x="2080" y="540"/>
-    </visualElement>
-    <visualElement>
       <elementName>Div</elementName>
       <elementAttributes>
         <entry>
@@ -2575,7 +2065,12 @@
     </visualElement>
     <visualElement>
       <elementName>Seven-Seg-Hex</elementName>
-      <elementAttributes/>
+      <elementAttributes>
+        <entry>
+          <string>Size</string>
+          <int>3</int>
+        </entry>
+      </elementAttributes>
       <pos x="2260" y="2120"/>
     </visualElement>
     <visualElement>
@@ -2623,7 +2118,7 @@
       <elementAttributes>
         <entry>
           <string>rotation</string>
-          <rotation reference="../../../../visualElement[204]/elementAttributes/entry/rotation"/>
+          <rotation reference="../../../../visualElement[153]/elementAttributes/entry/rotation"/>
         </entry>
         <entry>
           <string>Bits</string>
@@ -2634,7 +2129,12 @@
     </visualElement>
     <visualElement>
       <elementName>Seven-Seg-Hex</elementName>
-      <elementAttributes/>
+      <elementAttributes>
+        <entry>
+          <string>Size</string>
+          <int>3</int>
+        </entry>
+      </elementAttributes>
       <pos x="2160" y="2120"/>
     </visualElement>
     <visualElement>
@@ -2665,7 +2165,7 @@
       <elementAttributes>
         <entry>
           <string>rotation</string>
-          <rotation reference="../../../../visualElement[204]/elementAttributes/entry/rotation"/>
+          <rotation reference="../../../../visualElement[153]/elementAttributes/entry/rotation"/>
         </entry>
         <entry>
           <string>Bits</string>
@@ -2676,7 +2176,12 @@
     </visualElement>
     <visualElement>
       <elementName>Seven-Seg-Hex</elementName>
-      <elementAttributes/>
+      <elementAttributes>
+        <entry>
+          <string>Size</string>
+          <int>3</int>
+        </entry>
+      </elementAttributes>
       <pos x="2060" y="2120"/>
     </visualElement>
     <visualElement>
@@ -2689,7 +2194,7 @@
       <elementAttributes>
         <entry>
           <string>rotation</string>
-          <rotation reference="../../../../visualElement[211]/elementAttributes/entry/rotation"/>
+          <rotation reference="../../../../visualElement[160]/elementAttributes/entry/rotation"/>
         </entry>
         <entry>
           <string>Input Splitting</string>
@@ -2707,7 +2212,7 @@
       <elementAttributes>
         <entry>
           <string>rotation</string>
-          <rotation reference="../../../../visualElement[204]/elementAttributes/entry/rotation"/>
+          <rotation reference="../../../../visualElement[153]/elementAttributes/entry/rotation"/>
         </entry>
         <entry>
           <string>Bits</string>
@@ -2718,7 +2223,12 @@
     </visualElement>
     <visualElement>
       <elementName>Seven-Seg-Hex</elementName>
-      <elementAttributes/>
+      <elementAttributes>
+        <entry>
+          <string>Size</string>
+          <int>3</int>
+        </entry>
+      </elementAttributes>
       <pos x="1960" y="2120"/>
     </visualElement>
     <visualElement>
@@ -2731,7 +2241,7 @@
       <elementAttributes>
         <entry>
           <string>rotation</string>
-          <rotation reference="../../../../visualElement[211]/elementAttributes/entry/rotation"/>
+          <rotation reference="../../../../visualElement[160]/elementAttributes/entry/rotation"/>
         </entry>
         <entry>
           <string>Input Splitting</string>
@@ -2749,7 +2259,7 @@
       <elementAttributes>
         <entry>
           <string>rotation</string>
-          <rotation reference="../../../../visualElement[204]/elementAttributes/entry/rotation"/>
+          <rotation reference="../../../../visualElement[153]/elementAttributes/entry/rotation"/>
         </entry>
         <entry>
           <string>Bits</string>
@@ -2760,7 +2270,12 @@
     </visualElement>
     <visualElement>
       <elementName>Seven-Seg-Hex</elementName>
-      <elementAttributes/>
+      <elementAttributes>
+        <entry>
+          <string>Size</string>
+          <int>3</int>
+        </entry>
+      </elementAttributes>
       <pos x="1860" y="2120"/>
     </visualElement>
     <visualElement>
@@ -2773,7 +2288,7 @@
       <elementAttributes>
         <entry>
           <string>rotation</string>
-          <rotation reference="../../../../visualElement[211]/elementAttributes/entry/rotation"/>
+          <rotation reference="../../../../visualElement[160]/elementAttributes/entry/rotation"/>
         </entry>
         <entry>
           <string>Input Splitting</string>
@@ -2829,6 +2344,511 @@
         </entry>
       </elementAttributes>
       <pos x="2360" y="2500"/>
+    </visualElement>
+    <visualElement>
+      <elementName>LED</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Color</string>
+          <awt-color>
+            <red>204</red>
+            <green>255</green>
+            <blue>51</blue>
+            <alpha>255</alpha>
+          </awt-color>
+        </entry>
+      </elementAttributes>
+      <pos x="740" y="400"/>
+    </visualElement>
+    <visualElement>
+      <elementName>LED</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Color</string>
+          <awt-color reference="../../../../visualElement[175]/elementAttributes/entry/awt-color"/>
+        </entry>
+      </elementAttributes>
+      <pos x="740" y="540"/>
+    </visualElement>
+    <visualElement>
+      <elementName>LED</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Color</string>
+          <awt-color reference="../../../../visualElement[175]/elementAttributes/entry/awt-color"/>
+        </entry>
+      </elementAttributes>
+      <pos x="740" y="680"/>
+    </visualElement>
+    <visualElement>
+      <elementName>LED</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Color</string>
+          <awt-color reference="../../../../visualElement[175]/elementAttributes/entry/awt-color"/>
+        </entry>
+      </elementAttributes>
+      <pos x="740" y="820"/>
+    </visualElement>
+    <visualElement>
+      <elementName>LED</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Color</string>
+          <awt-color reference="../../../../visualElement[175]/elementAttributes/entry/awt-color"/>
+        </entry>
+      </elementAttributes>
+      <pos x="740" y="960"/>
+    </visualElement>
+    <visualElement>
+      <elementName>LED</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Color</string>
+          <awt-color reference="../../../../visualElement[175]/elementAttributes/entry/awt-color"/>
+        </entry>
+      </elementAttributes>
+      <pos x="740" y="1100"/>
+    </visualElement>
+    <visualElement>
+      <elementName>LED</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Color</string>
+          <awt-color reference="../../../../visualElement[175]/elementAttributes/entry/awt-color"/>
+        </entry>
+      </elementAttributes>
+      <pos x="740" y="1240"/>
+    </visualElement>
+    <visualElement>
+      <elementName>LED</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Color</string>
+          <awt-color reference="../../../../visualElement[175]/elementAttributes/entry/awt-color"/>
+        </entry>
+      </elementAttributes>
+      <pos x="740" y="1380"/>
+    </visualElement>
+    <visualElement>
+      <elementName>LED</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Color</string>
+          <awt-color reference="../../../../visualElement[175]/elementAttributes/entry/awt-color"/>
+        </entry>
+      </elementAttributes>
+      <pos x="740" y="1520"/>
+    </visualElement>
+    <visualElement>
+      <elementName>LED</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Color</string>
+          <awt-color reference="../../../../visualElement[175]/elementAttributes/entry/awt-color"/>
+        </entry>
+      </elementAttributes>
+      <pos x="740" y="1660"/>
+    </visualElement>
+    <visualElement>
+      <elementName>LED</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Color</string>
+          <awt-color reference="../../../../visualElement[175]/elementAttributes/entry/awt-color"/>
+        </entry>
+      </elementAttributes>
+      <pos x="740" y="1800"/>
+    </visualElement>
+    <visualElement>
+      <elementName>LED</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Color</string>
+          <awt-color reference="../../../../visualElement[175]/elementAttributes/entry/awt-color"/>
+        </entry>
+      </elementAttributes>
+      <pos x="740" y="1940"/>
+    </visualElement>
+    <visualElement>
+      <elementName>LED</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Color</string>
+          <awt-color reference="../../../../visualElement[175]/elementAttributes/entry/awt-color"/>
+        </entry>
+      </elementAttributes>
+      <pos x="740" y="2080"/>
+    </visualElement>
+    <visualElement>
+      <elementName>LED</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Color</string>
+          <awt-color reference="../../../../visualElement[175]/elementAttributes/entry/awt-color"/>
+        </entry>
+      </elementAttributes>
+      <pos x="740" y="2220"/>
+    </visualElement>
+    <visualElement>
+      <elementName>LED</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Color</string>
+          <awt-color reference="../../../../visualElement[175]/elementAttributes/entry/awt-color"/>
+        </entry>
+      </elementAttributes>
+      <pos x="740" y="2360"/>
+    </visualElement>
+    <visualElement>
+      <elementName>LED</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Color</string>
+          <awt-color reference="../../../../visualElement[175]/elementAttributes/entry/awt-color"/>
+        </entry>
+      </elementAttributes>
+      <pos x="740" y="2500"/>
+    </visualElement>
+    <visualElement>
+      <elementName>LED</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Color</string>
+          <awt-color reference="../../../../visualElement[175]/elementAttributes/entry/awt-color"/>
+        </entry>
+      </elementAttributes>
+      <pos x="1200" y="400"/>
+    </visualElement>
+    <visualElement>
+      <elementName>LED</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Color</string>
+          <awt-color reference="../../../../visualElement[175]/elementAttributes/entry/awt-color"/>
+        </entry>
+      </elementAttributes>
+      <pos x="1200" y="540"/>
+    </visualElement>
+    <visualElement>
+      <elementName>LED</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Color</string>
+          <awt-color reference="../../../../visualElement[175]/elementAttributes/entry/awt-color"/>
+        </entry>
+      </elementAttributes>
+      <pos x="1200" y="680"/>
+    </visualElement>
+    <visualElement>
+      <elementName>LED</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Color</string>
+          <awt-color reference="../../../../visualElement[175]/elementAttributes/entry/awt-color"/>
+        </entry>
+      </elementAttributes>
+      <pos x="1200" y="820"/>
+    </visualElement>
+    <visualElement>
+      <elementName>LED</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Color</string>
+          <awt-color reference="../../../../visualElement[175]/elementAttributes/entry/awt-color"/>
+        </entry>
+      </elementAttributes>
+      <pos x="1200" y="960"/>
+    </visualElement>
+    <visualElement>
+      <elementName>LED</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Color</string>
+          <awt-color reference="../../../../visualElement[175]/elementAttributes/entry/awt-color"/>
+        </entry>
+      </elementAttributes>
+      <pos x="1200" y="1100"/>
+    </visualElement>
+    <visualElement>
+      <elementName>LED</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Color</string>
+          <awt-color reference="../../../../visualElement[175]/elementAttributes/entry/awt-color"/>
+        </entry>
+      </elementAttributes>
+      <pos x="1200" y="1240"/>
+    </visualElement>
+    <visualElement>
+      <elementName>LED</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Color</string>
+          <awt-color reference="../../../../visualElement[175]/elementAttributes/entry/awt-color"/>
+        </entry>
+      </elementAttributes>
+      <pos x="1200" y="1380"/>
+    </visualElement>
+    <visualElement>
+      <elementName>LED</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Color</string>
+          <awt-color reference="../../../../visualElement[175]/elementAttributes/entry/awt-color"/>
+        </entry>
+      </elementAttributes>
+      <pos x="1200" y="1520"/>
+    </visualElement>
+    <visualElement>
+      <elementName>LED</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Color</string>
+          <awt-color reference="../../../../visualElement[175]/elementAttributes/entry/awt-color"/>
+        </entry>
+      </elementAttributes>
+      <pos x="1200" y="1660"/>
+    </visualElement>
+    <visualElement>
+      <elementName>LED</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Color</string>
+          <awt-color reference="../../../../visualElement[175]/elementAttributes/entry/awt-color"/>
+        </entry>
+      </elementAttributes>
+      <pos x="1200" y="1800"/>
+    </visualElement>
+    <visualElement>
+      <elementName>LED</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Color</string>
+          <awt-color reference="../../../../visualElement[175]/elementAttributes/entry/awt-color"/>
+        </entry>
+      </elementAttributes>
+      <pos x="1200" y="1940"/>
+    </visualElement>
+    <visualElement>
+      <elementName>LED</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Color</string>
+          <awt-color reference="../../../../visualElement[175]/elementAttributes/entry/awt-color"/>
+        </entry>
+      </elementAttributes>
+      <pos x="1200" y="2080"/>
+    </visualElement>
+    <visualElement>
+      <elementName>LED</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Color</string>
+          <awt-color reference="../../../../visualElement[175]/elementAttributes/entry/awt-color"/>
+        </entry>
+      </elementAttributes>
+      <pos x="1200" y="2220"/>
+    </visualElement>
+    <visualElement>
+      <elementName>LED</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Color</string>
+          <awt-color reference="../../../../visualElement[175]/elementAttributes/entry/awt-color"/>
+        </entry>
+      </elementAttributes>
+      <pos x="1200" y="2360"/>
+    </visualElement>
+    <visualElement>
+      <elementName>LED</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Color</string>
+          <awt-color reference="../../../../visualElement[175]/elementAttributes/entry/awt-color"/>
+        </entry>
+      </elementAttributes>
+      <pos x="1200" y="2500"/>
+    </visualElement>
+    <visualElement>
+      <elementName>LED</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Color</string>
+          <awt-color reference="../../../../visualElement[175]/elementAttributes/entry/awt-color"/>
+        </entry>
+      </elementAttributes>
+      <pos x="1640" y="400"/>
+    </visualElement>
+    <visualElement>
+      <elementName>LED</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Color</string>
+          <awt-color reference="../../../../visualElement[175]/elementAttributes/entry/awt-color"/>
+        </entry>
+      </elementAttributes>
+      <pos x="1640" y="540"/>
+    </visualElement>
+    <visualElement>
+      <elementName>LED</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Color</string>
+          <awt-color reference="../../../../visualElement[175]/elementAttributes/entry/awt-color"/>
+        </entry>
+      </elementAttributes>
+      <pos x="1640" y="680"/>
+    </visualElement>
+    <visualElement>
+      <elementName>LED</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Color</string>
+          <awt-color reference="../../../../visualElement[175]/elementAttributes/entry/awt-color"/>
+        </entry>
+      </elementAttributes>
+      <pos x="1640" y="820"/>
+    </visualElement>
+    <visualElement>
+      <elementName>LED</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Color</string>
+          <awt-color reference="../../../../visualElement[175]/elementAttributes/entry/awt-color"/>
+        </entry>
+      </elementAttributes>
+      <pos x="1640" y="960"/>
+    </visualElement>
+    <visualElement>
+      <elementName>LED</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Color</string>
+          <awt-color reference="../../../../visualElement[175]/elementAttributes/entry/awt-color"/>
+        </entry>
+      </elementAttributes>
+      <pos x="1640" y="1100"/>
+    </visualElement>
+    <visualElement>
+      <elementName>LED</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Color</string>
+          <awt-color reference="../../../../visualElement[175]/elementAttributes/entry/awt-color"/>
+        </entry>
+      </elementAttributes>
+      <pos x="1640" y="1240"/>
+    </visualElement>
+    <visualElement>
+      <elementName>LED</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Color</string>
+          <awt-color reference="../../../../visualElement[175]/elementAttributes/entry/awt-color"/>
+        </entry>
+      </elementAttributes>
+      <pos x="1640" y="1380"/>
+    </visualElement>
+    <visualElement>
+      <elementName>LED</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Color</string>
+          <awt-color reference="../../../../visualElement[175]/elementAttributes/entry/awt-color"/>
+        </entry>
+      </elementAttributes>
+      <pos x="1640" y="1520"/>
+    </visualElement>
+    <visualElement>
+      <elementName>LED</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Color</string>
+          <awt-color reference="../../../../visualElement[175]/elementAttributes/entry/awt-color"/>
+        </entry>
+      </elementAttributes>
+      <pos x="1640" y="1660"/>
+    </visualElement>
+    <visualElement>
+      <elementName>LED</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Color</string>
+          <awt-color reference="../../../../visualElement[175]/elementAttributes/entry/awt-color"/>
+        </entry>
+      </elementAttributes>
+      <pos x="1640" y="1800"/>
+    </visualElement>
+    <visualElement>
+      <elementName>LED</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Color</string>
+          <awt-color reference="../../../../visualElement[175]/elementAttributes/entry/awt-color"/>
+        </entry>
+      </elementAttributes>
+      <pos x="1640" y="1940"/>
+    </visualElement>
+    <visualElement>
+      <elementName>LED</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Color</string>
+          <awt-color reference="../../../../visualElement[175]/elementAttributes/entry/awt-color"/>
+        </entry>
+      </elementAttributes>
+      <pos x="1640" y="2080"/>
+    </visualElement>
+    <visualElement>
+      <elementName>LED</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Color</string>
+          <awt-color reference="../../../../visualElement[175]/elementAttributes/entry/awt-color"/>
+        </entry>
+      </elementAttributes>
+      <pos x="1640" y="2220"/>
+    </visualElement>
+    <visualElement>
+      <elementName>LED</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Color</string>
+          <awt-color reference="../../../../visualElement[175]/elementAttributes/entry/awt-color"/>
+        </entry>
+      </elementAttributes>
+      <pos x="1640" y="2360"/>
+    </visualElement>
+    <visualElement>
+      <elementName>LED</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Color</string>
+          <awt-color reference="../../../../visualElement[175]/elementAttributes/entry/awt-color"/>
+        </entry>
+      </elementAttributes>
+      <pos x="1640" y="2500"/>
+    </visualElement>
+    <visualElement>
+      <elementName>LED</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Color</string>
+          <awt-color reference="../../../../visualElement[175]/elementAttributes/entry/awt-color"/>
+        </entry>
+      </elementAttributes>
+      <pos x="2080" y="400"/>
+    </visualElement>
+    <visualElement>
+      <elementName>LED</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Color</string>
+          <awt-color reference="../../../../visualElement[175]/elementAttributes/entry/awt-color"/>
+        </entry>
+      </elementAttributes>
+      <pos x="2080" y="540"/>
     </visualElement>
   </visualElements>
   <wires>
@@ -2927,10 +2947,6 @@
     <wire>
       <p1 x="1880" y="2440"/>
       <p2 x="1940" y="2440"/>
-    </wire>
-    <wire>
-      <p1 x="2700" y="2440"/>
-      <p2 x="2720" y="2440"/>
     </wire>
     <wire>
       <p1 x="2300" y="780"/>
@@ -3481,6 +3497,10 @@
       <p2 x="2440" y="1100"/>
     </wire>
     <wire>
+      <p1 x="2500" y="1100"/>
+      <p2 x="2620" y="1100"/>
+    </wire>
+    <wire>
       <p1 x="720" y="1100"/>
       <p2 x="740" y="1100"/>
     </wire>
@@ -3491,10 +3511,6 @@
     <wire>
       <p1 x="1620" y="1100"/>
       <p2 x="1640" y="1100"/>
-    </wire>
-    <wire>
-      <p1 x="2500" y="1100"/>
-      <p2 x="2620" y="1100"/>
     </wire>
     <wire>
       <p1 x="2820" y="2380"/>
