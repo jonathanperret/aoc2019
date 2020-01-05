@@ -34,6 +34,7 @@ function input() {
     return int(inputline);
   } else {
     printf "INPUT: ERROR" >> "/dev/stderr";
+    printf "HALTING after %d steps\n", steps >> "/dev/stderr";
     exit 1;
   }
 }
